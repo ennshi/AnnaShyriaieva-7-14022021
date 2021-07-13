@@ -1,27 +1,32 @@
 const express = require('express');
-const { Client } = require('pg');
+const sequelize = require('./utils/database');
+const { graphqlHTTP } = require('express-graphql');
+const { buildScema } = require('graphql');
+const User = require('./models/User');
+const Message = require('./models/Message');
+const Channel = require('./models/Channel');
 
 const port = process.env.PORT;
 const app = express();
 
-const client = new Client({
-  connectionString: process.env.DATABASE_URL,
-  ssl: {
-    rejectUnauthorized: false
-  }
+app.use(express.json());
+
+app.use(
+  '/api',
+  graphqlHTTP({
+    schema: null,
+    rootValue: {},
+  }),
+);
+User.hasMany(Channel, { as: 'channels', constraints: false });
+Channel.hasMany(User, { as: 'users', constraints: false });
+Message.belongsTo(Message, { foreignKey: 'toMessage', constraints: false });
+Message.belongsTo(Channel, { foreignKey: 'channelId', constraints: false });
+Message.belongsTo(User, { foreignKey: 'from', constraints: false });
+
+sequelize.sync().then((result) => {
+  //console.log(result);
+  app.listen(port, () => {
+    console.log('Server is up');
+  });
 });
-
-client.connect()
-  .then(() => 
-    app.listen(port, () => {
-      console.log('Server is up');
-  }))
-  .catch(e => console.log('server err', e));
-
-// client.query('SELECT table_schema,table_name FROM information_schema.tables;', (err, res) => {
-//   if (err) throw err;
-//   for (let row of res.rows) {
-//     console.log(JSON.stringify(row));
-//   }
-//   client.end();
-// });
