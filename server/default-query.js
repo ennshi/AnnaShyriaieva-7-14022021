@@ -18,6 +18,9 @@ mutation createUser {
     ...UserData
   }
 }
+mutation deleteUser {
+  deleteUser(id: 1)
+}
 fragment UserData on User {
   id
   firstName
