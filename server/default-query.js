@@ -18,6 +18,16 @@ mutation createUser {
     ...UserData
   }
 }
+mutation createChannel {
+  createChannel(input: {name: "general", users: [1]}) {
+    id
+  }
+}
+mutation createMessage {
+  createMessage(input: {text: "New message", channelId: 1, }) {
+    id
+  }
+}
 mutation deleteUser {
   deleteUser(id: 1)
 }

@@ -10,6 +10,10 @@ const Channel = sequelize.define(
       allowNull: false,
       primaryKey: true,
     },
+    name: {
+      type: DataTypes.STRING,
+      unique: true,
+    },
   },
   {},
 );

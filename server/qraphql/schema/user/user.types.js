@@ -3,7 +3,6 @@ const gql = require('graphql-tag');
 const typeDefs = gql`
   type Query {
     login(input: UserLogin!): String
-
     users: [User]
     user(id: ID!): User
   }
@@ -19,6 +18,7 @@ const typeDefs = gql`
     password: String!
     avatar: String
     isAdmin: Boolean!
+    channels: [Channel]
   }
   input UserLogin {
     username: String!

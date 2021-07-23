@@ -25,13 +25,21 @@ app.use(
   }),
 );
 
-User.hasMany(Channel, { as: 'channels', constraints: false });
-Channel.hasMany(User, { as: 'users', constraints: false });
+User.belongsToMany(Channel, {
+  as: 'channels',
+  through: 'user_channel',
+  constraints: false,
+});
+Channel.belongsToMany(User, {
+  as: 'users',
+  through: 'user_channel',
+  constraints: false,
+});
 Message.belongsTo(Message, { foreignKey: 'toMessage', constraints: false });
-Message.belongsTo(Channel, { foreignKey: 'channelId', constraints: false });
+Message.belongsTo(Channel, { foreignKey: 'channel', constraints: false });
 Message.belongsTo(User, { foreignKey: 'from', constraints: false });
 
-sequelize.sync({ force: true }).then(() => {
+sequelize.sync().then(() => {
   //console.log(result);
   app.listen(port, () => {
     console.log('Server is up');
