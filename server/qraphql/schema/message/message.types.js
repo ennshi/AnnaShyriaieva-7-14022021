@@ -2,7 +2,7 @@ const gql = require('graphql-tag');
 
 const typeDefs = gql`
   extend type Query {
-    messages(channelId: ID): [Message]
+    messages(input: GetMessagesInput): GetMessagesResponse
     message(id: ID!): Message
   }
   extend type Mutation {
@@ -14,7 +14,7 @@ const typeDefs = gql`
     text: String!
     image: String
     from: User
-    toMessage: Message
+    toMessage: ID
     channel: Channel
   }
   input CreateMessageInput {
@@ -22,6 +22,15 @@ const typeDefs = gql`
     image: String
     toMessageId: String
     channelId: ID!
+  }
+  input GetMessagesInput {
+    channelId: ID
+    offset: Int
+    limit: Int
+  }
+  type GetMessagesResponse {
+    messages: [Message]
+    count: Int
   }
 `;
 

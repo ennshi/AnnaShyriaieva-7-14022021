@@ -13,6 +13,30 @@ query getUsers {
     password
   }
 }
+query getMessagesOfChannel1 {
+  messages(input: {channelId: 1, limit: 20, offset: 0}) {
+    messages {
+      id
+      text
+      channel {
+        id
+      }
+    }
+    count
+  }
+}
+query getMessages {
+  messages(input: {limit: 20, offset: 0}) {
+    messages {
+      id
+      text
+      channel {
+        id
+      }
+    }
+    count
+  }
+}
 mutation createUser {
   createUser(input: {firstName: "Anna", username: "anna1", lastName: "Shi", password: "qwerty1234", isAdmin: false}) {
     ...UserData
