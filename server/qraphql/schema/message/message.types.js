@@ -1,6 +1,7 @@
 const gql = require('graphql-tag');
 
 const typeDefs = gql`
+  scalar Upload
   extend type Query {
     messages(input: GetMessagesInput): GetMessagesResponse
     message(id: ID!): Message
@@ -19,8 +20,8 @@ const typeDefs = gql`
   }
   input CreateMessageInput {
     text: String!
-    image: String
-    toMessageId: String
+    image: Upload
+    toMessageId: ID
     channelId: ID!
   }
   input GetMessagesInput {

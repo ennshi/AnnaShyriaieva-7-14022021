@@ -1,6 +1,7 @@
 const express = require('express');
 const sequelize = require('./utils/database');
 const { graphqlHTTP } = require('express-graphql');
+const { graphqlUploadExpress } = require('graphql-upload');
 const schema = require('./qraphql/schema');
 const User = require('./models/User');
 const Message = require('./models/Message');
@@ -16,6 +17,7 @@ app.use(isAuth);
 
 app.use(
   '/api',
+  graphqlUploadExpress({ maxFileSize: 1000000, maxFiles: 1 }),
   graphqlHTTP({
     schema: schema,
     graphiql: {

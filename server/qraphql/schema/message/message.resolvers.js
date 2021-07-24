@@ -1,8 +1,28 @@
+const fs = require('fs');
+const { GraphQLUpload } = require('graphql-upload');
+const { nanoid } = require('nanoid');
+
 const Channel = require('../../../models/Channel');
 const Message = require('../../../models/Message');
-const { extendMessage } = require('../helpers');
+const { extendMessage, clearImage } = require('../helpers');
+
+const storeFS = ({ stream, filename }) => {
+  const uploadDir = 'img';
+  const path = `${uploadDir}/${nanoid()}.${filename.split('.')[1]}`;
+  return new Promise((resolve, reject) =>
+    stream
+      .on('error', (error) => {
+        if (stream.truncated) fs.unlinkSync(path);
+        reject(error);
+      })
+      .pipe(fs.createWriteStream(path))
+      .on('error', (error) => reject(error))
+      .on('finish', () => resolve({ path })),
+  );
+};
 
 const resolvers = {
+  Upload: GraphQLUpload,
   Query: {
     message: async (_, { id }) => {
       const message = await Message.findOne({ where: { id } });
@@ -26,10 +46,19 @@ const resolvers = {
       if (!req.isAuth || !req.userId) {
         throw new Error('Authentication failed');
       }
-      const { text, image, channelId, toMessageId } = input;
+      const { text, channelId, toMessageId, image } = input;
+      let fileLocation;
+      if (image) {
+        const { filename, createReadStream } = await image;
+        const stream = createReadStream();
+        const pathObj = await storeFS({ stream, filename });
+        fileLocation = `${req.protocol}://${req.get(
+          'host',
+        )}/${pathObj.path.replace(/\\/g, '/')}`;
+      }
       const message = await Message.create({
         text,
-        image: image || '',
+        image: fileLocation || '',
       });
       await message.setUser(req.userId);
 
@@ -54,6 +83,9 @@ const resolvers = {
       }
       if (!req.isAdmin || req.userId !== message.from)
         throw new Error('Forbidden');
+      if (message.image) {
+        clearImage(message.image);
+      }
       await Message.destroy({
         where: { toMessage: id },
       });
