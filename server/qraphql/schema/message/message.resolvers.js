@@ -25,13 +25,13 @@ const resolvers = {
   Upload: GraphQLUpload,
   Query: {
     message: async (_, { id }) => {
-      const message = await Message.findOne({ where: { id } });
+      const message = await Message.findByPk(id);
       return await extendMessage(message);
     },
     messages: async (_, { input }) => {
       const filter = {
-        where: input?.channelId ? { channel: input.channelId } : {},
-        limit: input?.limit || 100,
+        where: input?.channelId ? { channel: input.channelId, toMessage: null} : {toMessage: null},
+        limit: input?.limit || 20,
         offset: input?.offset || 0,
       };
       const messages = await Message.findAndCountAll(filter);
@@ -40,6 +40,20 @@ const resolvers = {
         count: messages.count,
       };
     },
+    responses: async(_, { input }) => {
+      const messageFound = await Message.findByPk(input.id);
+      if(!messageFound) throw new Error("Message doesn't exist");
+      const filter = {
+        where: { id: messageFound.responses},
+        limit: input?.limit || 10,
+        offset: input?.offset || 0,
+      };
+      const messages = await Message.findAndCountAll(filter);
+      return {
+        messages: messages.rows.map(async (m) => await extendMessage(m)),
+        count: messages.count,
+      };
+    }
   },
   Mutation: {
     createMessage: async (_, { input }, req) => {
