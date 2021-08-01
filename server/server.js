@@ -41,7 +41,7 @@ Message.belongsTo(Message, { foreignKey: 'toMessage', constraints: false });
 Message.belongsTo(Channel, { foreignKey: 'channel', constraints: false });
 Message.belongsTo(User, { foreignKey: 'from', constraints: false });
 
-sequelize.sync().then(() => {
+sequelize.sync({force: true}).then(() => {
   //console.log(result);
   app.listen(port, () => {
     console.log('Server is up');
