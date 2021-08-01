@@ -19,6 +19,10 @@ const Message = sequelize.define(
       type: DataTypes.DATE,
       allowNull: false,
     },
+    responses: {
+      type: DataTypes.ARRAY(DataTypes.INTEGER),
+      defaultValue: []
+    }
   },
   {},
 );

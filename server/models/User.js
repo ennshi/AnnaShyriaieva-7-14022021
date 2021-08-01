@@ -23,7 +23,6 @@ const User = sequelize.define(
       unique: true,
       allowNull: false,
     },
-    avatar: DataTypes.STRING,
     password: {
       type: DataTypes.STRING,
       allowNull: false,

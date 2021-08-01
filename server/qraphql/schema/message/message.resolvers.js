@@ -65,13 +65,19 @@ const resolvers = {
       const channelFound = await Channel.findByPk(channelId);
       if (!channelFound) throw new Error("Channel doesn't exist");
       await message.setChannel(channelId);
-
+      
+      let parentMessage;
       if (toMessageId) {
-        const messageFound = await Message.findByPk(toMessageId);
-        if (!messageFound) throw new Error("Message doesn't exist");
+        parentMessage = await Message.findByPk(toMessageId);
+        if (!parentMessage) throw new Error("Message doesn't exist");
         await message.setMessage(toMessageId);
       }
-      return await extendMessage(message);
+      const newMessage = await extendMessage(message);
+      if(parentMessage) {
+        parentMessage.responses = parentMessage.responses.length ? [...parentMessage.responses, newMessage.id] : [newMessage.id];
+        await parentMessage.save();
+      }
+      return newMessage;
     },
     deleteMessage: async (_, { id }, req) => {
       if (!req.isAuth || !req.userId) {
@@ -83,12 +89,18 @@ const resolvers = {
       }
       if (!req.isAdmin || req.userId !== message.from)
         throw new Error('Forbidden');
-      if (message.image) {
+      if (message.image)
         clearImage(message.image);
+      if (message.toMessage) {
+        const parentMessage = await Message.findByPk(message.toMessage);
+        if(parentMessage) {
+          parentMessage.responses = parentMessage.responses.filter(rId => +rId !== +id);
+          await parentMessage.save();
+        }
       }
-      await Message.destroy({
-        where: { toMessage: id },
-      });
+      if (message.responses.length) {
+        await Message.destroy({where: {id: message.responses}});
+      }
       await message.destroy();
       return id;
     },

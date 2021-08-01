@@ -16,6 +16,7 @@ const typeDefs = gql`
     image: String
     from: User
     toMessage: ID
+    responses: [ID!]!
     channel: Channel
   }
   input CreateMessageInput {

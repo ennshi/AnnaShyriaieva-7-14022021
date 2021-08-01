@@ -52,8 +52,19 @@ mutation createMessage {
     id
   }
 }
+mutation createResponse {
+  createMessage(input: {text: "New message", channelId: 1, toMessageId: 1 }) {
+    id
+  }
+}
 mutation deleteUser {
   deleteUser(id: 1)
+}
+mutation deleteResponse {
+  deleteMessage(id: 3)
+}
+mutation deleteParentMessage {
+  deleteMessage(id: 1)
 }
 fragment UserData on User {
   id

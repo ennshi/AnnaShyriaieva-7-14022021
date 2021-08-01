@@ -16,7 +16,6 @@ const typeDefs = gql`
     lastName: String!
     username: String!
     password: String!
-    avatar: String
     isAdmin: Boolean!
     channels: [Channel]
   }
@@ -28,8 +27,6 @@ const typeDefs = gql`
     firstName: String!
     lastName: String!
     username: String!
-    password: String!
-    avatar: String
     isAdmin: Boolean!
   }
 `;
