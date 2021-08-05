@@ -1,7 +1,7 @@
 import React, {useRef} from 'react'
 import useInfiniteScroll from 'react-infinite-scroll-hook'
 
-import {Box, BoxProps, Flex, FlexProps, TextProps} from '@chakra-ui/react'
+import {Box, BoxProps, Flex, FlexProps, TextProps, Text} from '@chakra-ui/react'
 
 import {ScrollContextProvider} from '../context/scrollContext'
 import {CHAT_CONTAINER_STYLE, MESSAGE_CONTAINER_STYLE} from '../defaultStyles'
@@ -70,7 +70,7 @@ const ChkrChat: <TMessage extends IMessage = IMessage>(p: ChkrChatProps<TMessage
 
   const containerRef = useRef<HTMLDivElement>(null)
 
-  const infiniteRef = useInfiniteScroll({
+  const [infiniteRef] = useInfiniteScroll({
     loading,
     hasNextPage,
     onLoadMore: onLoadEarlier,
@@ -132,7 +132,7 @@ const ChkrChat: <TMessage extends IMessage = IMessage>(p: ChkrChatProps<TMessage
             {((infiniteScroll && !inverted)
               && (
                 <Box ref={infiniteRef as unknown as React.RefObject<HTMLDivElement>} w="100%">
-                  {/* {loading && <Text color="red">Loading</Text>} */}
+                  {loading && <Text color="red">Loading</Text>}
                 </Box>
               )
             )}

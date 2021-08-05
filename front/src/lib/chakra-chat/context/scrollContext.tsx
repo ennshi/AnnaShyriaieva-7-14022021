@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useRef, useState } from 'react'
 
 import { IMessage } from '../types'
 
@@ -20,62 +20,60 @@ export const ScrollContextProvider: React.FC<ScrollProviderType> = ({ messages, 
   const [shouldScrollToStart, setShouldScrollToStart] = useState(true)
   const prevScrollToTop = useRef<number | undefined>()
 
-  useEffect(() => {
-    if (!shouldScrollToStart) return
-    onScrollToStart()
-  }, [messages, shouldScrollToStart])
-
-  const stopAutoScrollToStart = () => {
-    // no auto-scroll to start if scrolled to fetch more items (detect the direction of scroll in case of inverted caht or no)
-    return (inverted
-      ? (prevScrollToTop?.current! < refContainer?.current?.scrollTop!)
-      : (prevScrollToTop?.current! > refContainer?.current?.scrollTop!)
-    )
-  }
-
-  const startAutoScrollToStart = () => {
-    return (inverted
-      ? (refContainer?.current?.scrollTop === 0)
-      : (refContainer?.current?.scrollTop! === refContainer?.current?.scrollHeight! - refContainer?.current?.offsetHeight!)
-    )
-  }
-
-  const onScroll = () => {
-    if (!refContainer?.current) return
-    if (startAutoScrollToStart())
-      return setShouldScrollToStart(true)
-    if (prevScrollToTop.current) {
-      if (stopAutoScrollToStart() && shouldScrollToStart)
-        setShouldScrollToStart(false)
-    } else {
-      prevScrollToTop.current = refContainer.current.scrollTop
+  const onScrollToStart = useCallback(() => {
+    const scrollToBottom = () => {
+      if ((refContainer?.current
+        && (refContainer.current.scrollHeight > (refContainer.current.scrollTop + refContainer.current.offsetHeight))))
+        refContainer.current.scrollTop = refContainer.current.scrollHeight - refContainer.current.offsetHeight
     }
-  }
-
-  useEffect(() => {
-    if (!refContainer?.current) return
-    refContainer.current.addEventListener('scroll', onScroll)
-    return () => refContainer?.current?.removeEventListener('scroll', onScroll)
-  }, [])
-
-  const scrollToBottom = () => {
-    if ((refContainer?.current
-      && (refContainer.current.scrollHeight > (refContainer.current.scrollTop + refContainer.current.offsetHeight))))
-      refContainer.current.scrollTop = refContainer.current.scrollHeight - refContainer.current.offsetHeight
-  }
-
-  const scrollToTop = () => {
-    if ((refContainer?.current && (refContainer.current.scrollTop !== 0)))
-      refContainer.current.scrollTop = 0
-  }
-
-  const onScrollToStart = () => {
+  
+    const scrollToTop = () => {
+      if ((refContainer?.current && (refContainer.current.scrollTop !== 0)))
+        refContainer.current.scrollTop = 0
+    }
     setShouldScrollToStart(true)
     if (inverted)
       return scrollToTop()
 
     return scrollToBottom()
-  }
+  }, [inverted, refContainer])
+
+  useEffect(() => {
+    if (!shouldScrollToStart) return
+    onScrollToStart()
+  }, [messages, shouldScrollToStart, onScrollToStart])
+
+  useEffect(() => {
+    if (!refContainer?.current) return
+    const container = refContainer?.current;
+    const stopAutoScrollToStart = () => {
+      // no auto-scroll to start if scrolled to fetch more items (detect the direction of scroll in case of inverted caht or no)
+      return (inverted
+        ? (prevScrollToTop?.current! < refContainer?.current?.scrollTop!)
+        : (prevScrollToTop?.current! > refContainer?.current?.scrollTop!)
+      )
+    }
+  
+    const startAutoScrollToStart = () => {
+      return (inverted
+        ? (refContainer?.current?.scrollTop === 0)
+        : (refContainer?.current?.scrollTop! === refContainer?.current?.scrollHeight! - refContainer?.current?.offsetHeight!)
+      )
+    }
+    const onScroll = () => {
+      if (!refContainer?.current) return
+      if (startAutoScrollToStart())
+        return setShouldScrollToStart(true)
+      if (prevScrollToTop.current) {
+        if (stopAutoScrollToStart() && shouldScrollToStart)
+          setShouldScrollToStart(false)
+      } else {
+        prevScrollToTop.current = refContainer.current.scrollTop
+      }
+    }
+    refContainer.current.addEventListener('scroll', onScroll)
+    return () => container?.removeEventListener('scroll', onScroll)
+  }, [inverted, refContainer, shouldScrollToStart])
 
   const onScrollForFewPixels = (px: number) => {
     // scroll on the resizing textarea

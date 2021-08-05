@@ -30,7 +30,7 @@ const ChkrAvatar: <TMessage extends IMessage = IMessage>(p: ChkrAvatarProps<TMes
     )
   }
   return (
-    <Avatar src={currentMessage?.user.avatar} {...AVATAR_STYLE} {...avatarStyle} />
+    <Avatar borderRadius="20%" src={currentMessage?.user.avatar} {...AVATAR_STYLE} {...avatarStyle} />
   )
 }
 

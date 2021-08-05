@@ -25,7 +25,7 @@ const TestChat: React.FC<BoxProps> = props => {
   useEffect(() => {
     if (newMessage?.text)
       setMessages(prevState => (prevState.length ? [...prevState, newMessage] : [newMessage]))
-  }, [newMessage?.createdAt])
+  }, [newMessage, newMessage?.createdAt])
 
   const getItems = async () => {
     return new Promise<CustomMessage[]>(res => {

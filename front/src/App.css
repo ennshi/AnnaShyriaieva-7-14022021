@@ -1,3 +1,6 @@
 .App {
-  width: 800px;
+  width: 100vw;
+  overflow-x: hidden;
+  background-color: #000000;
+  min-height: 100vh;
 }
