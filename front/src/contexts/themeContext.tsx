@@ -1,9 +1,7 @@
 import {ChakraProvider, extendTheme} from '@chakra-ui/react';
-import React, {useContext} from 'react';
+import React from 'react';
 
-export const themeContext = React.createContext({});
-
-const theme = extendTheme({
+export const theme = extendTheme({
   colors: {
     brand: {
       primary: "#184e77",
@@ -18,10 +16,4 @@ export const ThemeContextProvider: React.FC = ({children}) => {
       {children}
     </ChakraProvider>
   )
-}
-
-export const useCustomTheme = () => {
-  //@ts-ignore
-  const {theme} = useContext(themeContext)
-  return {theme};
 }

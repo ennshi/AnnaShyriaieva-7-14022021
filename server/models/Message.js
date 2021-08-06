@@ -21,8 +21,8 @@ const Message = sequelize.define(
     },
     responses: {
       type: DataTypes.ARRAY(DataTypes.INTEGER),
-      defaultValue: []
-    }
+      defaultValue: [],
+    },
   },
   {},
 );

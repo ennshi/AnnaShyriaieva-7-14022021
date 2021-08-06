@@ -131,7 +131,7 @@ const TestChat: React.FC<BoxProps> = props => {
       sendButton={(
         <IconButton
           aria-label="send"
-          bg="blue"
+          bg="transparent"
           borderRadius="none"
           width={30}
           icon={<RiSendPlaneFill />}
