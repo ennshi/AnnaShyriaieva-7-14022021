@@ -10,7 +10,7 @@ const resolvers = {
       return await extendChannel(channel);
     },
     channels: async (_, __, req) => {
-      if (!req.isAuth || !req.userId || !req.isAdmin) {
+      if (!req.isAuth || !req.userId) {
         throw new Error('Authentication failed');
       }
       const user = await User.findByPk(req.userId);
