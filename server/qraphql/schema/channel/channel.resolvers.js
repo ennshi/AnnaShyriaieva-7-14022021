@@ -9,8 +9,11 @@ const resolvers = {
       const channel = await Channel.findOne({ where: { id } });
       return await extendChannel(channel);
     },
-    channels: async (_, { userId }) => {
-      const user = await User.findByPk(userId);
+    channels: async (_, __, req) => {
+      if (!req.isAuth || !req.userId || !req.isAdmin) {
+        throw new Error('Authentication failed');
+      }
+      const user = await User.findByPk(req.userId);
       const channels = await user.getChannels();
       return channels.map(async (c) => await extendChannel(c));
     },
