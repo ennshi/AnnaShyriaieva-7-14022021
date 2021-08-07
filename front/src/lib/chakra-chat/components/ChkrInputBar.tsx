@@ -1,20 +1,27 @@
-import React, {useEffect, useRef, useState} from 'react'
-import ResizeTextarea, {TextareaAutosizeProps} from 'react-textarea-autosize'
+import React, { useEffect, useRef, useState } from "react";
+import ResizeTextarea, { TextareaAutosizeProps } from "react-textarea-autosize";
 
-import {Box, BoxProps, HStack, StackProps, Textarea, TextareaProps} from '@chakra-ui/react'
+import {
+  Box,
+  BoxProps,
+  HStack,
+  StackProps,
+  Textarea,
+  TextareaProps,
+} from "@chakra-ui/react";
 
-import {CHAT_PLACEHOLDER} from '../constants'
-import {useScroll} from '../context/scrollContext'
-import {INPUT_BAR_STYLE, TEXTAREA_PROPS} from '../defaultStyles'
+import { CHAT_PLACEHOLDER } from "../constants";
+import { useScroll } from "../context/scrollContext";
+import { INPUT_BAR_STYLE, TEXTAREA_PROPS } from "../defaultStyles";
 
 export type ChkrInputBarProps = {
-  onSend: (text: string) => void
-  sendButton?: React.ReactElement<{onClick: () => void}>
-  placeholder?: string
-  textAreaProps?: TextareaProps & TextareaAutosizeProps
-  inputBarWrapperStyle?: BoxProps
-  inputBarStyle?: StackProps
-}
+  onSend: (text: string) => void;
+  sendButton?: React.ReactElement<{ onClick: () => void }>;
+  placeholder?: string;
+  textAreaProps?: TextareaProps & TextareaAutosizeProps;
+  inputBarWrapperStyle?: BoxProps;
+  inputBarStyle?: StackProps;
+};
 
 const ChkrInputBar: React.FC<ChkrInputBarProps> = ({
   onSend,
@@ -24,31 +31,31 @@ const ChkrInputBar: React.FC<ChkrInputBarProps> = ({
   inputBarWrapperStyle,
   inputBarStyle,
 }) => {
-  const [message, setMessage] = useState('')
-  const {onScrollToStart, onScrollForFewPixels} = useScroll()
-  const textAreaRef = useRef<HTMLTextAreaElement>(null)
-  const textAreaPrevHeight = useRef<number | undefined>()
+  const [message, setMessage] = useState("");
+  const { onScrollToStart, onScrollForFewPixels } = useScroll();
+  const textAreaRef = useRef<HTMLTextAreaElement>(null);
+  const textAreaPrevHeight = useRef<number | undefined>();
 
   useEffect(() => {
-    textAreaPrevHeight.current = textAreaRef?.current?.offsetHeight
-  }, [])
+    textAreaPrevHeight.current = textAreaRef?.current?.offsetHeight;
+  }, []);
 
   const onTextAreaResize = (newHeight: number) => {
-    if (!textAreaPrevHeight?.current) return
-    onScrollForFewPixels(newHeight - textAreaPrevHeight.current)
-    textAreaPrevHeight.current = newHeight
-  }
+    if (!textAreaPrevHeight?.current) return;
+    onScrollForFewPixels(newHeight - textAreaPrevHeight.current);
+    textAreaPrevHeight.current = newHeight;
+  };
 
   const handleOnSend = () => {
-    onSend(message.trim())
-    setMessage('')
-    onScrollToStart()
-  }
+    onSend(message.trim());
+    setMessage("");
+    onScrollToStart();
+  };
 
   const renderSendButton = () => {
-    if (!sendButton) return
-    return React.cloneElement(sendButton, {onClick: handleOnSend})
-  }
+    if (!sendButton) return;
+    return React.cloneElement(sendButton, { onClick: handleOnSend });
+  };
 
   return (
     <Box
@@ -70,13 +77,13 @@ const ChkrInputBar: React.FC<ChkrInputBarProps> = ({
           flex={1}
           resize="none"
           as={ResizeTextarea}
-          onChange={e => setMessage(e.target.value)}
+          onChange={(e) => setMessage(e.target.value)}
           onHeightChange={onTextAreaResize}
           placeholder={placeholder}
           value={message}
           border="none"
           _focus={{
-            border: 'none',
+            border: "none",
           }}
           ref={textAreaRef}
           {...TEXTAREA_PROPS}
@@ -85,7 +92,7 @@ const ChkrInputBar: React.FC<ChkrInputBarProps> = ({
         {renderSendButton()}
       </HStack>
     </Box>
-  )
-}
+  );
+};
 
-export default ChkrInputBar
+export default ChkrInputBar;

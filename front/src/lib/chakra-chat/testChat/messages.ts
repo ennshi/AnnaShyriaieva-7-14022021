@@ -1,52 +1,52 @@
 const DEFAULT_MESSAGES = [
   {
     _id: 1,
-    text: 'This is a new message 1',
+    text: "This is a new message 1",
     createdAt: new Date(Date.UTC(2016, 5, 11, 17, 20, 0)),
     user: {
       _id: 2,
-      name: 'React Native',
-      avatar: 'https://placeimg.com/140/140/any',
+      name: "React Native",
+      avatar: "https://placeimg.com/140/140/any",
     },
   },
   {
     _id: 2,
-    text: 'This is a new message 2',
+    text: "This is a new message 2",
     createdAt: new Date(Date.UTC(2016, 5, 12, 17, 20, 0)),
     user: {
       _id: 2,
-      name: 'React Native',
-      avatar: 'https://placeimg.com/140/140/any',
+      name: "React Native",
+      avatar: "https://placeimg.com/140/140/any",
     },
   },
   {
     _id: 3,
-    text: 'This is a new message 3',
+    text: "This is a new message 3",
     createdAt: new Date(Date.UTC(2016, 5, 13, 17, 20, 0)),
     user: {
       _id: 1,
-      name: 'React Native',
-      avatar: 'https://placeimg.com/140/140/any',
+      name: "React Native",
+      avatar: "https://placeimg.com/140/140/any",
     },
   },
   {
     _id: 4,
-    text: 'This is a quick reply. Do you love Gifted Chat? (radio) KEEP IT 4',
+    text: "This is a quick reply. Do you love Gifted Chat? (radio) KEEP IT 4",
     createdAt: new Date(Date.UTC(2016, 5, 14, 17, 20, 0)),
     user: {
       _id: 2,
-      name: 'React Native',
-      avatar: 'https://placeimg.com/140/140/any',
+      name: "React Native",
+      avatar: "https://placeimg.com/140/140/any",
     },
   },
   {
     _id: 5,
-    text: 'This is a quick reply. Do you love Gifted Chat? (checkbox) 5',
+    text: "This is a quick reply. Do you love Gifted Chat? (checkbox) 5",
     createdAt: new Date(Date.UTC(2016, 5, 15, 17, 20, 0)),
     user: {
       _id: 2,
-      name: 'React Native',
-      avatar: 'https://placeimg.com/140/140/any',
+      name: "React Native",
+      avatar: "https://placeimg.com/140/140/any",
     },
   },
   {
@@ -56,8 +56,8 @@ const DEFAULT_MESSAGES = [
     createdAt: new Date(Date.UTC(2016, 5, 15, 18, 20, 0)),
     user: {
       _id: 2,
-      name: 'React Native',
-      avatar: 'https://placeimg.com/140/140/any',
+      name: "React Native",
+      avatar: "https://placeimg.com/140/140/any",
     },
   },
   {
@@ -69,68 +69,68 @@ const DEFAULT_MESSAGES = [
     createdAt: new Date(Date.UTC(2016, 8, 1, 17, 20, 0)),
     user: {
       _id: 1,
-      name: 'React Native',
-      avatar: 'https://placeimg.com/140/140/any',
+      name: "React Native",
+      avatar: "https://placeimg.com/140/140/any",
     },
   },
   {
     _id: 8,
-    text: 'This is a new message',
+    text: "This is a new message",
     createdAt: new Date(Date.UTC(2016, 8, 1, 17, 22, 0)),
     user: {
       _id: 2,
-      name: 'React Native',
-      avatar: 'https://placeimg.com/140/140/any',
+      name: "React Native",
+      avatar: "https://placeimg.com/140/140/any",
     },
   },
   {
     _id: 9,
-    text: 'Hello developer',
+    text: "Hello developer",
     createdAt: new Date(Date.UTC(2016, 8, 1, 17, 26, 0)),
     user: {
       _id: 2,
-      name: 'React Native',
-      avatar: 'https://placeimg.com/140/140/any',
+      name: "React Native",
+      avatar: "https://placeimg.com/140/140/any",
     },
   },
   {
     _id: 10,
-    text: 'Hi! I work from home today! 10',
+    text: "Hi! I work from home today! 10",
     createdAt: new Date(Date.UTC(2016, 8, 1, 17, 29, 0)),
     user: {
       _id: 1,
-      name: 'React Native',
-      avatar: 'https://placeimg.com/140/140/any',
+      name: "React Native",
+      avatar: "https://placeimg.com/140/140/any",
     },
   },
   {
     _id: 11,
-    text: 'This is a quick reply. Do you love Gifted Chat? (radio) KEEP IT 11',
+    text: "This is a quick reply. Do you love Gifted Chat? (radio) KEEP IT 11",
     createdAt: new Date(Date.UTC(2016, 8, 1, 17, 35, 0)),
     user: {
       _id: 2,
-      name: 'React Native',
-      avatar: 'https://placeimg.com/140/140/any',
+      name: "React Native",
+      avatar: "https://placeimg.com/140/140/any",
     },
   },
   {
     _id: 12,
-    text: 'This is a quick reply. Do you love Gifted Chat? (checkbox) 12',
+    text: "This is a quick reply. Do you love Gifted Chat? (checkbox) 12",
     createdAt: new Date(Date.UTC(2016, 8, 1, 17, 36, 0)),
     user: {
       _id: 2,
-      name: 'React Native',
-      avatar: 'https://placeimg.com/140/140/any',
+      name: "React Native",
+      avatar: "https://placeimg.com/140/140/any",
     },
   },
   {
     _id: 13,
-    text: 'This is a new message 13',
+    text: "This is a new message 13",
     createdAt: new Date(Date.UTC(2016, 8, 1, 17, 37, 0)),
     user: {
       _id: 2,
-      name: 'React Native',
-      avatar: 'https://placeimg.com/140/140/any',
+      name: "React Native",
+      avatar: "https://placeimg.com/140/140/any",
     },
   },
   {
@@ -142,10 +142,10 @@ const DEFAULT_MESSAGES = [
     createdAt: new Date(Date.UTC(2016, 8, 1, 17, 38, 0)),
     user: {
       _id: 1,
-      name: 'React Native',
-      avatar: 'https://placeimg.com/140/140/any',
+      name: "React Native",
+      avatar: "https://placeimg.com/140/140/any",
     },
   },
-]
+];
 
-export default DEFAULT_MESSAGES
+export default DEFAULT_MESSAGES;

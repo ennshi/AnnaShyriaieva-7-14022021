@@ -1,17 +1,20 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
-import {ThemeContextProvider} from './contexts/themeContext';
+import React from "react";
+import ReactDOM from "react-dom";
+import "./index.css";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
+import { ThemeContextProvider } from "./contexts/themeContext";
+import { ApolloContextProvider } from "./contexts/apolloContext";
 
 ReactDOM.render(
   <React.StrictMode>
     <ThemeContextProvider>
-      <App />
+      <ApolloContextProvider>
+        <App />
+      </ApolloContextProvider>
     </ThemeContextProvider>
   </React.StrictMode>,
-  document.getElementById('root')
+  document.getElementById("root")
 );
 
 // If you want to start measuring performance in your app, pass a function

@@ -1,21 +1,21 @@
-import React from 'react'
+import React from "react";
 
 // import { TestingLayoutPartialProps } from '../../../components/molecules/atomTesting/TestingLayout'
-import TestChat from './TestChat'
+import TestChat from "./TestChat";
 
 const testChatView = {
-  title: 'Test Chat',
+  title: "Test Chat",
   variants: [
     {
-      variantLabel: '',
+      variantLabel: "",
       components: [
         {
-          stateLabel: 'Test Chat',
+          stateLabel: "Test Chat",
           component: <TestChat />,
         },
       ],
     },
   ],
-}
+};
 
-export default testChatView
+export default testChatView;
