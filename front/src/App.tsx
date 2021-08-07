@@ -6,14 +6,15 @@ import { useApollo } from "./contexts/apolloContext";
 import TestChat from "./lib/chakra-chat/testChat/TestChat";
 
 const App: React.FC = () => {
-  const { isOpen, onOpen } = useDisclosure();
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const { isSignedIn } = useApollo();
 
   useEffect(() => {
     if (!isSignedIn) {
       onOpen();
     }
-  }, [isSignedIn, onOpen]);
+    if (isSignedIn) onClose();
+  }, [isSignedIn, onOpen, onClose]);
 
   return (
     <>
