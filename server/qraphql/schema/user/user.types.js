@@ -16,6 +16,7 @@ const typeDefs = gql`
     lastName: String!
     username: String!
     password: String!
+    email: String!
     isAdmin: Boolean!
     channels: [Channel]
   }
@@ -26,6 +27,7 @@ const typeDefs = gql`
   input CreateUserInput {
     firstName: String!
     lastName: String!
+    email: String!
     username: String!
     password: String!
     isAdmin: Boolean!

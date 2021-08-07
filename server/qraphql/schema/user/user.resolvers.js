@@ -35,7 +35,7 @@ const resolvers = {
   },
   Mutation: {
     createUser: async (_, { input }) => {
-      const { username, firstName, lastName, password, isAdmin } = input;
+      const { username, firstName, lastName, password, isAdmin, email } = input;
       const userFound = await User.findOne({ where: { username } });
       if (userFound) throw new Error('User already exists');
       const hashedPassword = await bcrypt.hash(password, 12);
@@ -43,6 +43,7 @@ const resolvers = {
         username,
         firstName,
         lastName,
+        email,
         password: hashedPassword,
         isAdmin,
       });
