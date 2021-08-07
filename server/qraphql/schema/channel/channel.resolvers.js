@@ -1,5 +1,6 @@
 const Channel = require('../../../models/Channel');
 const Message = require('../../../models/Message');
+const User = require('../../../models/User');
 const { extendChannel } = require('../helpers');
 
 const resolvers = {
@@ -8,8 +9,9 @@ const resolvers = {
       const channel = await Channel.findOne({ where: { id } });
       return await extendChannel(channel);
     },
-    channels: async () => {
-      const channels = await Channel.findAll();
+    channels: async (_, { userId }) => {
+      const user = await User.findByPk(userId);
+      const channels = await user.getChannels();
       return channels.map(async (c) => await extendChannel(c));
     },
   },

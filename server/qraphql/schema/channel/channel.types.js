@@ -2,7 +2,7 @@ const gql = require('graphql-tag');
 
 const typeDefs = gql`
   extend type Query {
-    channels: [Channel]
+    channels(userId: ID!): [Channel]
     channel(id: ID!): Channel
   }
   extend type Mutation {
