@@ -34,6 +34,7 @@ interface ChkrChatProps<TMessage extends IMessage> {
   onSend(message: Pick<TMessage, "text"> | string): void;
   placeholder?: string;
   sendButton?: React.ReactElement<{ onClick: () => void }>;
+  attachImageButton?: React.ReactElement<{ onClick: () => void }>;
   renderInputBar?: (props: ChkrInputBarProps) => React.ReactNode;
   /* messages styling */
   bubbleStyle?: BubbleStyle;
@@ -78,6 +79,7 @@ const ChkrChat: <TMessage extends IMessage = IMessage>(
     headerStyle,
     headerText,
     messageContainerStyle,
+    attachImageButton,
   } = props;
 
   const containerRef = useRef<HTMLDivElement>(null);
@@ -96,7 +98,13 @@ const ChkrChat: <TMessage extends IMessage = IMessage>(
 
   const renderChkrInputBar = () => {
     if (renderInputBar) return renderInputBar(props);
-    return <ChkrInputBar sendButton={sendButton} onSend={onSend} />;
+    return (
+      <ChkrInputBar
+        sendButton={sendButton}
+        onSend={onSend}
+        attachImageButton={attachImageButton}
+      />
+    );
   };
 
   const renderChkrHeader = () => {

@@ -16,6 +16,7 @@ import ChkrHeader, { ChkrHeaderProps } from "../components/ChkrHeader";
 import { IMessage } from "../types";
 import DEFAULT_MESSAGES from "./messages";
 import { RiSendPlaneFill } from "react-icons/ri";
+import { IoMdAdd } from "react-icons/io";
 
 type CustomMessage = IMessage & { isCustom?: boolean };
 
@@ -155,6 +156,15 @@ const TestChat: React.FC<BoxProps> = (props) => {
           borderRadius="none"
           width={30}
           icon={<RiSendPlaneFill />}
+        />
+      }
+      attachImageButton={
+        <IconButton
+          aria-label="send"
+          bg="transparent"
+          borderRadius="none"
+          width={30}
+          icon={<IoMdAdd />}
         />
       }
       renderHeader={renderHeader}

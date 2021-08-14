@@ -62,6 +62,14 @@ export const INPUT_BAR_STYLE = {
     borderRadius: "20px",
     overflow: "hidden",
   },
+  image: {
+    w: "50px",
+    h: "50px",
+    mx: "15px",
+    mb: "15px",
+    mt: "10px",
+    borderRadius: BORDER_RADIUS_PETIT,
+  },
 };
 
 export const AVATAR_STYLE = {
