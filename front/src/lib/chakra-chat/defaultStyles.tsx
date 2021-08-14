@@ -19,6 +19,13 @@ export const BUBBLE_STYLE = {
     lineHeight: "24px",
     // fontFamily: FONT_FAMILY.SOURCE_SANS_PRO,
   },
+  image: {
+    w: "70px",
+    h: "70px",
+    mx: "8px",
+    mt: "10px",
+    borderRadius: BORDER_RADIUS_PETIT,
+  },
   general: {
     p: "15px",
     color: "#fff",

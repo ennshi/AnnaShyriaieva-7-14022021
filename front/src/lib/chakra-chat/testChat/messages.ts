@@ -145,6 +145,7 @@ const DEFAULT_MESSAGES = [
       name: "React Native",
       avatar: "https://placeimg.com/140/140/any",
     },
+    image: "https://placeimg.com/140/140/any",
   },
 ];
 

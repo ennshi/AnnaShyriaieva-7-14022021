@@ -1,6 +1,8 @@
-import React from "react";
+import { useDisclosure } from "@chakra-ui/react";
+import React, { useState } from "react";
 
 import { IMessage, User } from "../types";
+import ChkrImageModal from "./ChkrImageModal";
 import ChkrMessage, { ChkrMessageProps } from "./ChkrMessage";
 
 export interface ChkrMessagesProps<TMessage extends IMessage> {
@@ -21,6 +23,19 @@ const ChkrMessages: <TMessage extends IMessage = IMessage>(
   inverted,
   ...props
 }) => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [imageSrc, setImageSrc] = useState<string>();
+
+  const showImage = (src: string) => {
+    setImageSrc(src);
+    onOpen();
+  };
+
+  const onCloseImage = () => {
+    onClose();
+    setImageSrc(undefined);
+  };
+
   const renderRow = <TMessage extends IMessage = IMessage>({
     item,
     index,
@@ -43,6 +58,7 @@ const ChkrMessages: <TMessage extends IMessage = IMessage>(
         inverted,
         nextMessage: nextMessage as unknown as TMessage,
         position: item.user._id === user._id ? "right" : "left",
+        showImage,
       };
       return <ChkrMessage {...messageProps} {...props} />;
     }
@@ -56,7 +72,12 @@ const ChkrMessages: <TMessage extends IMessage = IMessage>(
     return null;
   };
 
-  return <>{renderMessages()}</>;
+  return (
+    <>
+      {renderMessages()}
+      <ChkrImageModal isOpen={isOpen} onClose={onCloseImage} src={imageSrc} />
+    </>
+  );
 };
 
 export default ChkrMessages;
