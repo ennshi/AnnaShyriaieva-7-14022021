@@ -21,6 +21,8 @@ app.use(
   }),
 );
 
+app.use(express.static('img'));
+
 app.use(express.json());
 
 app.use(isAuth);

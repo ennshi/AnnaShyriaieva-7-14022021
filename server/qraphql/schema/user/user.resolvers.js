@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const User = require('../../../models/User');
+const Channel = require('../../../models/Channel');
 const { extendUser } = require('../helpers');
 
 const resolvers = {
@@ -12,6 +13,15 @@ const resolvers = {
     users: async () => {
       const users = await User.findAll();
       return users.map(async (u) => await extendUser(u));
+    },
+    currentUser: async (_, __, req) => {
+      if (!req.isAuth || !req.userId || !req.isAdmin) {
+        throw new Error('Authentication failed');
+      }
+      const currentUser = await User.findByPk(req.userId);
+      if (!currentUser) throw new Error("User doesn't exist");
+      console.log(currentUser);
+      return await extendUser(currentUser);
     },
     login: async (_, { input }) => {
       const { username, password } = input;
@@ -29,7 +39,7 @@ const resolvers = {
           isAdmin: userFound.isAdmin,
         },
         process.env.JWT_SECRET_KEY,
-        { expiresIn: '1h' },
+        { expiresIn: '24h' },
       );
     },
   },
@@ -47,6 +57,16 @@ const resolvers = {
         password: hashedPassword,
         isAdmin,
       });
+      //to create general channel
+      let generalChannel = await Channel.findOne({
+        where: { name: 'general' },
+      });
+      if (!generalChannel) {
+        generalChannel = await Channel.create({
+          name: 'general',
+        });
+      }
+      await generalChannel.addUser(createdUser.id);
       return await extendUser(createdUser);
     },
     deleteUser: async (_, { id }, req) => {

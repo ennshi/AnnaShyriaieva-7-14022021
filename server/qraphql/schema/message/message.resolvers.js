@@ -68,9 +68,10 @@ const resolvers = {
         const { filename, createReadStream } = await image;
         const stream = createReadStream();
         const pathObj = await storeFS({ stream, filename });
-        fileLocation = `${req.protocol}://${req.get(
-          'host',
-        )}/${pathObj.path.replace(/\\/g, '/')}`;
+        fileLocation = `${req.protocol}://${req.get('host')}/${pathObj.path
+          .replace(/\\/g, '/')
+          .replace('img/', '')}`;
+        console.log(fileLocation);
       }
       const message = await Message.create({
         text,

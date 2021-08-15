@@ -5,6 +5,7 @@ const typeDefs = gql`
     login(input: UserLogin!): String
     users: [User]
     user(id: ID!): User
+    currentUser: User
   }
   type Mutation {
     createUser(input: CreateUserInput): User

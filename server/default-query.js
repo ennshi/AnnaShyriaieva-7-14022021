@@ -43,7 +43,7 @@ mutation createUser {
   }
 }
 mutation createChannel {
-  createChannel(input: {name: "general", users: [1]}) {
+  createChannel(input: {name: "new channel", users: [1]}) {
     id
   }
 }

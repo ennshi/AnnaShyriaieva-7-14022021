@@ -20,7 +20,7 @@ const resolvers = {
   },
   Mutation: {
     createChannel: async (_, { input }, req) => {
-      if (!req.isAuth || !req.userId || !req.isAdmin) {
+      if (!req.isAuth || !req.userId) {
         throw new Error('Authentication failed');
       }
       const { name, users } = input;
@@ -29,7 +29,7 @@ const resolvers = {
       const channel = await Channel.create({
         name,
       });
-      await channel.addUsers(users);
+      await channel.addUsers([...users, req.userId]);
       return await extendChannel(channel);
     },
     deleteChannel: async (_, { id }, req) => {
@@ -39,6 +39,9 @@ const resolvers = {
       const channel = await Channel.findByPk(id);
       if (!channel) {
         throw new Error('Channel not found');
+      }
+      if (channel.name === 'general') {
+        throw new Error('Cannot delete the default channel');
       }
       await Message.destroy({ where: { channel: id } });
       await channel.destroy();
