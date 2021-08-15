@@ -4,6 +4,7 @@ import "./App.css";
 import AuthModal from "./components/organisms/AuthModal";
 import Main from "./components/screens/Main";
 import { useApollo } from "./contexts/apolloContext";
+import { CurrentUserProvider } from "./contexts/currentUserContext";
 
 const App: React.FC = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -21,7 +22,9 @@ const App: React.FC = () => {
       <AuthModal isOpen={isOpen} onClose={() => {}} />
       {isSignedIn && (
         <div className="App">
-          <Main />
+          <CurrentUserProvider>
+            <Main />
+          </CurrentUserProvider>
         </div>
       )}
     </>
