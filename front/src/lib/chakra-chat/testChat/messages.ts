@@ -122,6 +122,7 @@ const DEFAULT_MESSAGES = [
       name: "React Native",
       avatar: "https://placeimg.com/140/140/any",
     },
+    responses: [],
   },
   {
     _id: 13,
@@ -132,6 +133,7 @@ const DEFAULT_MESSAGES = [
       name: "React Native",
       avatar: "https://placeimg.com/140/140/any",
     },
+    responses: ["1", "2"],
   },
   {
     _id: 14,
@@ -146,6 +148,7 @@ const DEFAULT_MESSAGES = [
       avatar: "https://placeimg.com/140/140/any",
     },
     image: "https://placeimg.com/140/140/any",
+    responses: ["1", "2"],
   },
 ];
 

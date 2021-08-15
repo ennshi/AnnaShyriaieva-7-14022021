@@ -17,6 +17,7 @@ export interface IMessage {
   sent?: boolean;
   received?: boolean;
   pending?: boolean;
+  responses?: string[];
 }
 
 export type BubbleStyle = {

@@ -30,6 +30,7 @@ interface ChkrChatProps<TMessage extends IMessage> {
   chatWrapperStyle?: FlexProps;
   inverted?: boolean;
   messageContainerStyle?: FlexProps;
+  showResponses?: (messageId: string) => void;
   /* input bar */
   onSend(message: Pick<TMessage, "text"> | string): void;
   placeholder?: string;

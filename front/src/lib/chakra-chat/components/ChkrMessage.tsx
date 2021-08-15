@@ -21,6 +21,7 @@ export interface ChkrMessageProps<TMessage extends IMessage = IMessage> {
   inverted?: boolean;
   containerStyle?: BoxProps;
   showImage?: (src: string) => void;
+  showResponses?: (messageId: string) => void;
 }
 
 const ChkrMessage: <TMessage extends IMessage = IMessage>(

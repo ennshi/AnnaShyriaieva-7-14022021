@@ -170,6 +170,7 @@ const TestChat: React.FC<BoxProps> = (props) => {
       renderHeader={renderHeader}
       renderBubble={renderBubble}
       // renderAvatar={props => <Avatar name="A A"/>}
+      showResponses={(id) => console.log(id)}
       {...props}
     />
   );
