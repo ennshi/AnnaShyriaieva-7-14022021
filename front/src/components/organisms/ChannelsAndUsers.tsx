@@ -1,22 +1,58 @@
 import { Button, Text, VStack } from "@chakra-ui/react";
-import React from "react";
+import React, { useEffect } from "react";
+import { useCurrentUser } from "../../contexts/currentUserContext";
+import { useCreateChannel } from "../../hooks/mutations/useCreateChannel";
 import { useGetChannels } from "../../hooks/queries/useGetChannels";
 import { useGetUsers } from "../../hooks/queries/useGetUsers";
+import { Channel } from "../../types";
 
 type Props = {
-  setEntitySelected: (entity: "user" | "channel") => void;
-  setIdSelected: (id: string) => void;
+  setChannelId: (id: string) => void;
 };
-const ChannelsAndUsers: React.FC<Props> = ({
-  setEntitySelected,
-  setIdSelected,
-}) => {
+
+const ChannelsAndUsers: React.FC<Props> = ({ setChannelId }) => {
   const { data: usersData } = useGetUsers();
   const { data: channelsData } = useGetChannels();
+  const { currentUser } = useCurrentUser();
 
-  const finalChannels = channelsData?.channels?.filter(
-    (ch: any) => ch?.users.length > 2
-  );
+  const [createChannel] = useCreateChannel();
+
+  useEffect(() => {
+    if (!channelsData?.channels) return;
+    const generalChannelId = channelsData?.channels?.find(
+      (ch: Channel) => ch.name === "general"
+    )?.id;
+    setChannelId(generalChannelId);
+  }, [channelsData, setChannelId]);
+
+  const finalChannels =
+    channelsData?.channels?.filter(
+      (ch: Channel) => ch?.users?.length > 2 || ch.name === "general"
+    ) || [];
+
+  const onChannelClick = (id: string) => setChannelId(id);
+  const onUserClick = async (userId: string) => {
+    const foundChannel = channelsData?.channels?.find((ch: Channel) =>
+      userId === currentUser?.id
+        ? ch?.users?.length === 1
+        : ch?.users?.length === 2 && !!ch?.users?.find((u) => u.id === userId)
+    );
+    if (foundChannel) return setChannelId(foundChannel.id);
+    try {
+      const createdChannel = await createChannel({
+        variables: {
+          name:
+            userId === currentUser?.id
+              ? `saved--${currentUser?.id}`
+              : `direct--${userId}--${currentUser?.id}`,
+          users: userId === currentUser?.id ? [] : [userId],
+        },
+      });
+      setChannelId(createdChannel?.data?.channel?.id);
+    } catch (e) {
+      console.log(e);
+    }
+  };
   return (
     <VStack
       width="300px"
@@ -34,11 +70,7 @@ const ChannelsAndUsers: React.FC<Props> = ({
               variant="unstyled"
               key={i}
               color="gray.100"
-              onClick={() => {
-                setEntitySelected("channel");
-                setIdSelected(ch.id);
-                console.log(ch.id);
-              }}
+              onClick={() => onChannelClick(ch.id)}
               w="100%"
               textAlign="left"
               paddingLeft="10px"
@@ -53,11 +85,7 @@ const ChannelsAndUsers: React.FC<Props> = ({
               variant="unstyled"
               key={i}
               color="gray.100"
-              onClick={() => {
-                setEntitySelected("user");
-                setIdSelected(u.id);
-                console.log(u.id);
-              }}
+              onClick={() => onUserClick(u.id)}
               w="100%"
               textAlign="left"
               paddingLeft="10px"

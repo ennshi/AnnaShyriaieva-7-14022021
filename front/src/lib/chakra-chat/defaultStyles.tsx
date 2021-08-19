@@ -61,11 +61,11 @@ export const DATE_TEXT_STYLE = {
 
 export const INPUT_BAR_STYLE = {
   wrapper: {
-    bg: "#7DCEA0",
+    bg: "brand.secondary",
     px: "16px",
   },
   inputbar: {
-    bg: "#AED6F1",
+    bg: "#FFF",
     borderRadius: "20px",
     overflow: "hidden",
   },
@@ -90,7 +90,7 @@ export const TEXTAREA_PROPS = {
 };
 
 export const HEADER_CONTAINER_STYLE = {
-  bg: "#AED6F1",
+  bg: "blue.700",
   py: "20px",
 };
 

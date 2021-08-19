@@ -54,6 +54,7 @@ export const ApolloContextProvider: React.FC = ({ children }) => {
 
   const clearToken = () => {
     setToken(null);
+    localStorage.removeItem("token");
   };
 
   return (

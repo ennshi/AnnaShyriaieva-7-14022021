@@ -6,6 +6,9 @@ export const GET_CHANNELS = gql`
     channels {
       id
       name
+      users {
+        id
+      }
     }
   }
 `;

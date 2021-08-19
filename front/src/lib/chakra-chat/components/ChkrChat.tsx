@@ -32,7 +32,7 @@ interface ChkrChatProps<TMessage extends IMessage> {
   messageContainerStyle?: FlexProps;
   showResponses?: (messageId: string) => void;
   /* input bar */
-  onSend(message: Pick<TMessage, "text"> | string): void;
+  onSend(message: Pick<TMessage, "text"> | string, image?: File | null): void;
   placeholder?: string;
   sendButton?: React.ReactElement<{ onClick: () => void }>;
   attachImageButton?: React.ReactElement<{ onClick: () => void }>;

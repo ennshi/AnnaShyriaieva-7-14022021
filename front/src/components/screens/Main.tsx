@@ -4,16 +4,12 @@ import ChannelsAndUsers from "../organisms/ChannelsAndUsers";
 import ChatView from "../organisms/ChatView";
 
 const Main: React.FC = ({}) => {
-  const [idSelected, setIdSelected] = useState<string>();
-  const [entitySelected, setEntitySelected] = useState<"user" | "channel">();
+  const [channelId, setChannelId] = useState<string>();
 
   return (
     <HStack spacing="0">
-      <ChannelsAndUsers
-        setIdSelected={setIdSelected}
-        setEntitySelected={setEntitySelected}
-      />
-      <ChatView idSelected={idSelected} entitySelected={entitySelected} />
+      <ChannelsAndUsers setChannelId={setChannelId} />
+      {channelId && <ChatView channelId={channelId} />}
     </HStack>
   );
 };
