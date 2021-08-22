@@ -33,6 +33,7 @@ const resolvers = {
         where: input?.channelId
           ? { channel: input.channelId, toMessage: null }
           : { toMessage: null },
+        order: [['updatedAt']],
         limit: input?.limit || 20,
         offset: input?.offset || 0,
       };

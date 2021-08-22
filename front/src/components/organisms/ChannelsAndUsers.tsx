@@ -1,10 +1,18 @@
-import { Button, Text, VStack } from "@chakra-ui/react";
+import {
+  Avatar,
+  Button,
+  HStack,
+  IconButton,
+  Text,
+  VStack,
+} from "@chakra-ui/react";
 import React, { useEffect } from "react";
 import { useCurrentUser } from "../../contexts/currentUserContext";
 import { useCreateChannel } from "../../hooks/mutations/useCreateChannel";
 import { useGetChannels } from "../../hooks/queries/useGetChannels";
 import { useGetUsers } from "../../hooks/queries/useGetUsers";
-import { Channel } from "../../types";
+import { Channel, User } from "../../types";
+import { IoMdAdd } from "react-icons/io";
 
 type Props = {
   setChannelId: (id: string) => void;
@@ -53,6 +61,9 @@ const ChannelsAndUsers: React.FC<Props> = ({ setChannelId }) => {
       console.log(e);
     }
   };
+
+  const createNewChannel = () => {};
+
   return (
     <VStack
       width="300px"
@@ -61,9 +72,22 @@ const ChannelsAndUsers: React.FC<Props> = ({ setChannelId }) => {
       spacing="20px"
       textAlign="left"
       overflowY="scroll"
+      px="10px"
     >
       <VStack spacing="0" w="100%">
-        <Text color="gray.100">CHANNELS</Text>
+        <HStack justifyContent="space-between" w="100%">
+          <Text color="gray.100">CHANNELS</Text>
+          {currentUser?.isAdmin && (
+            <IconButton
+              aria-label="send image"
+              bg="transparent"
+              borderRadius="none"
+              width={10}
+              onClick={createNewChannel}
+              icon={<IoMdAdd color="white" />}
+            />
+          )}
+        </HStack>
         {!!finalChannels?.length &&
           finalChannels.map((ch: any, i: number) => (
             <Button
@@ -78,9 +102,11 @@ const ChannelsAndUsers: React.FC<Props> = ({ setChannelId }) => {
           ))}
       </VStack>
       <VStack spacing="0" w="100%">
-        <Text color="gray.100">USERS</Text>
+        <Text color="gray.100" w="100%">
+          USERS
+        </Text>
         {!!usersData?.users?.length &&
-          usersData.users.map((u: any, i: number) => (
+          usersData.users.map((u: User, i: number) => (
             <Button
               variant="unstyled"
               key={i}
@@ -89,7 +115,16 @@ const ChannelsAndUsers: React.FC<Props> = ({ setChannelId }) => {
               w="100%"
               textAlign="left"
               paddingLeft="10px"
-            >{`${u.username}`}</Button>
+            >
+              <HStack>
+                <Avatar
+                  name={u.firstName + " " + u.lastName}
+                  size="xs"
+                  bg="#AED6F1"
+                />
+                <Text>{`${u.username}`}</Text>
+              </HStack>
+            </Button>
           ))}
       </VStack>
     </VStack>

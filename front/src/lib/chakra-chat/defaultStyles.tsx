@@ -35,13 +35,14 @@ export const BUBBLE_STYLE = {
     bg: "#AED6F1",
     borderRadius: BORDER_RADIUS_BIG,
     borderBottomLeftRadius: BORDER_RADIUS_PETIT,
-    maxW: "240px",
+    maxW: "350px",
   },
   right: {
-    bg: "#7DCEA0",
+    bg: "#AED6F1",
     borderRadius: BORDER_RADIUS_BIG,
     borderBottomRightRadius: BORDER_RADIUS_PETIT,
     ml: "29px",
+    maxW: "350px",
   },
 };
 
@@ -92,6 +93,7 @@ export const TEXTAREA_PROPS = {
 export const HEADER_CONTAINER_STYLE = {
   bg: "blue.700",
   py: "20px",
+  px: "16px",
 };
 
 export const HEADER_AVATAR_STYLE = {

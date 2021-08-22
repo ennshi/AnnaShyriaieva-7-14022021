@@ -36,6 +36,7 @@ const ChkrMessage: <TMessage extends IMessage = IMessage>(
     renderAvatar,
     inverted,
     renderBubble,
+    user,
   } = props;
 
   const renderChkrBubble = () => {
@@ -72,6 +73,9 @@ const ChkrMessage: <TMessage extends IMessage = IMessage>(
       <HStack
         spacing="8px"
         w="100%"
+        justifyContent={
+          currentMessage?.user?._id === user._id ? "flex-end" : "flex-start"
+        }
         alignItems="flex-end"
         mt={
           (!inverted &&

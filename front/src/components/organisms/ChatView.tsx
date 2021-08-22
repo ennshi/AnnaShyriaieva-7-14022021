@@ -85,7 +85,10 @@ const ChatView: React.FC<Props> = ({ channelId }) => {
         //   </IconButton>
         // }
         rightButton={
-          <Avatar name={currentUser?.firstName + " " + currentUser?.lastName} />
+          <Avatar
+            name={currentUser?.firstName + " " + currentUser?.lastName}
+            bg="#AED6F1"
+          />
         }
       />
     );
@@ -118,7 +121,7 @@ const ChatView: React.FC<Props> = ({ channelId }) => {
       renderHeader={renderHeader}
       attachImageButton={
         <IconButton
-          aria-label="send"
+          aria-label="send image"
           bg="transparent"
           borderRadius="none"
           width={30}
@@ -128,7 +131,6 @@ const ChatView: React.FC<Props> = ({ channelId }) => {
       showResponses={(id) => console.log(id)}
     />
   );
-  return <></>;
 };
 
 export default ChatView;

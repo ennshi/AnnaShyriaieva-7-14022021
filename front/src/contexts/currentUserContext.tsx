@@ -15,6 +15,7 @@ export const CurrentUserProvider: React.FC = ({ children }) => {
   const { data, error } = useGetCurrentUser();
   const { clearToken } = useApollo();
 
+  console.log("currentUser", data, error);
   useEffect(() => {
     if (!data?.currentUser && error) {
       clearToken();

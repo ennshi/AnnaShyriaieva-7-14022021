@@ -15,7 +15,7 @@ const resolvers = {
       return users.map(async (u) => await extendUser(u));
     },
     currentUser: async (_, __, req) => {
-      if (!req.isAuth || !req.userId || !req.isAdmin) {
+      if (!req.isAuth || !req.userId) {
         throw new Error('Authentication failed');
       }
       const currentUser = await User.findByPk(req.userId);
