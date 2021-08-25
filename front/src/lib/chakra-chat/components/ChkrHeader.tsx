@@ -47,7 +47,11 @@ const ChkrHeader: React.FC<ChkrHeaderProps> = ({
           px="16px"
         >
           {displayRecipientAvatar && (
-            <Avatar src={recipient?.avatar} {...HEADER_AVATAR_STYLE} />
+            <Avatar
+              src={recipient?.avatar}
+              name={recipient?.name}
+              {...HEADER_AVATAR_STYLE}
+            />
           )}
           <Text variant="paragraphBase" fontWeight="600">
             {headerText || recipient?.name || ""}

@@ -60,7 +60,7 @@ const ChannelsAndUsers: React.FC<Props> = ({ setChannelId }) => {
     if (!channelsData?.channels) return;
     const generalChannelId = channelsData?.channels?.find(
       (ch: Channel) => ch?.name === "general"
-    );
+    ).id;
     setChannelId(generalChannelId);
   }, [channelsData, currentUser?.id, setChannelId]);
 

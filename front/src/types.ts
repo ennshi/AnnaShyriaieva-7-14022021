@@ -61,3 +61,7 @@ export type GetResponsesInput = {
   offset: number;
   limit: number;
 };
+
+export type GetChannelInput = {
+  id: string;
+};

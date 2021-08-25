@@ -6,11 +6,12 @@ import { RiSendPlaneFill } from "react-icons/ri";
 import { useCurrentUser } from "../../contexts/currentUserContext";
 import { useSendMessage } from "../../hooks/mutations/useSendMessage";
 import { useGetMessages } from "../../hooks/queries/useGetMessages";
+import { useGetChannel } from "../../hooks/queries/useGetChannel";
 import { ChkrAvatarProps } from "../../lib/chakra-chat/components/ChkrAvatar";
 import ChkrChat from "../../lib/chakra-chat/components/ChkrChat";
 import ChkrHeader from "../../lib/chakra-chat/components/ChkrHeader";
 import { IMessage } from "../../lib/chakra-chat/types";
-import { Message } from "../../types";
+import { Message, User } from "../../types";
 
 type Props = {
   channelId: string;
@@ -22,6 +23,10 @@ const ChatView: React.FC<Props> = ({ channelId }) => {
   const [sendMessage] = useSendMessage();
   const page = useRef(0);
   const { currentUser } = useCurrentUser();
+
+  const { data: channel } = useGetChannel({
+    variables: { id: channelId },
+  });
 
   const {
     data: messagesData,
@@ -62,19 +67,27 @@ const ChatView: React.FC<Props> = ({ channelId }) => {
         },
       });
       if (sentMessage) await refetch();
-    } catch (e) {
-      console.log(e);
+    } catch (e) {}
+  };
+
+  const chatHeaderTitle = () => {
+    if (!channel?.channel?.name) return;
+    if (channel.channel.name.includes("direct--")) {
+      const recipient = channel.channel.users.filter(
+        (u: User) => u.id !== currentUser?.id
+      )[0];
+      return { _id: recipient.id, name: recipient.username };
     }
+    if (channel.channel.name.includes("saved--")) {
+      return { _id: currentUser?.id, name: currentUser?.username };
+    }
+    return { _id: channelId, name: "#" + channel.channel.name };
   };
 
   const renderHeader = () => {
     return (
       <ChkrHeader
-        recipient={{
-          _id: 2,
-          name: "React Native",
-          avatar: "https://placeimg.com/140/140/any",
-        }}
+        recipient={chatHeaderTitle()}
         // leftButton={
         //   <IconButton
         //     aria-label="back button"
