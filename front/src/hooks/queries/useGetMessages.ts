@@ -12,6 +12,8 @@ export const GET_MESSAGES = gql`
         from {
           id
           username
+          firstName
+          lastName
         }
         responses
         createdAt

@@ -6,6 +6,7 @@ import { RiSendPlaneFill } from "react-icons/ri";
 import { useCurrentUser } from "../../contexts/currentUserContext";
 import { useSendMessage } from "../../hooks/mutations/useSendMessage";
 import { useGetMessages } from "../../hooks/queries/useGetMessages";
+import { ChkrAvatarProps } from "../../lib/chakra-chat/components/ChkrAvatar";
 import ChkrChat from "../../lib/chakra-chat/components/ChkrChat";
 import ChkrHeader from "../../lib/chakra-chat/components/ChkrHeader";
 import { IMessage } from "../../lib/chakra-chat/types";
@@ -44,7 +45,7 @@ const ChatView: React.FC<Props> = ({ channelId }) => {
         image,
         user: {
           _id: from?.id,
-          name: from?.firstName + from?.lastName,
+          name: from?.firstName + " " + from?.lastName,
         },
         responses,
         createdAt: moment(createdAt, "x").toISOString(),
@@ -94,6 +95,17 @@ const ChatView: React.FC<Props> = ({ channelId }) => {
     );
   };
 
+  const renderAvatar = (props: ChkrAvatarProps<IMessage>) => {
+    if (`${props.currentMessage?.user._id}` === `${currentUser?.id}`) return;
+    return (
+      <Avatar
+        name={props.currentMessage?.user.name}
+        size="xs"
+        backgroundColor="#AED6F1"
+      />
+    );
+  };
+
   return (
     <ChkrChat
       chatWrapperStyle={{ minH: "100vh" }}
@@ -129,6 +141,7 @@ const ChatView: React.FC<Props> = ({ channelId }) => {
         />
       }
       showResponses={(id) => console.log(id)}
+      renderAvatar={renderAvatar}
     />
   );
 };
