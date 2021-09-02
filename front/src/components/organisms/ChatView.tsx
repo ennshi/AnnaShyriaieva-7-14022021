@@ -16,11 +16,16 @@ import { Message, User } from "../../types";
 type Props = {
   channelId: string;
   onShowResponses: (id: string) => void;
+  onOpenCurrentUserProfile: () => void;
 };
 
 const limitItems = 20;
 
-const ChatView: React.FC<Props> = ({ channelId, onShowResponses }) => {
+const ChatView: React.FC<Props> = ({
+  channelId,
+  onShowResponses,
+  onOpenCurrentUserProfile,
+}) => {
   const [sendMessage] = useSendMessage();
   const page = useRef(0);
   const { currentUser } = useCurrentUser();
@@ -104,6 +109,8 @@ const ChatView: React.FC<Props> = ({ channelId, onShowResponses }) => {
           <Avatar
             name={currentUser?.firstName + " " + currentUser?.lastName}
             bg="#AED6F1"
+            cursor="pointer"
+            onClick={onOpenCurrentUserProfile}
           />
         }
       />

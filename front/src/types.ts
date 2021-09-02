@@ -65,3 +65,11 @@ export type GetResponsesInput = {
 export type GetChannelInput = {
   id: string;
 };
+
+export type GetUserInput = {
+  id: string;
+};
+
+export type DeleteUserInput = {
+  id: string;
+};

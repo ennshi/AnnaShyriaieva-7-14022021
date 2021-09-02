@@ -16,11 +16,17 @@ type Props = {
   messageId: string;
   channelId: string;
   onClose: () => void;
+  onOpenCurrentUserProfile: () => void;
 };
 
 const limitItems = 20;
 
-const ThreadView: React.FC<Props> = ({ messageId, channelId, onClose }) => {
+const ThreadView: React.FC<Props> = ({
+  messageId,
+  channelId,
+  onClose,
+  onOpenCurrentUserProfile,
+}) => {
   const [sendMessage] = useSendMessage();
   const page = useRef(0);
   const { currentUser } = useCurrentUser();
@@ -85,6 +91,8 @@ const ThreadView: React.FC<Props> = ({ messageId, channelId, onClose }) => {
           <Avatar
             name={currentUser?.firstName + " " + currentUser?.lastName}
             bg="#AED6F1"
+            cursor="pointer"
+            onClick={onOpenCurrentUserProfile}
           />
         }
         displayRecipientAvatar={false}

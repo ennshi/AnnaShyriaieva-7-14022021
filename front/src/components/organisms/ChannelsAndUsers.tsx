@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { MouseEvent, useEffect, useState } from "react";
 import { IoMdAdd } from "react-icons/io";
 
 import {
@@ -20,6 +20,8 @@ import {
 import { useGetUsers } from "../../hooks/queries/useGetUsers";
 import { Channel, User } from "../../types";
 import ChannelModal from "./ChannelModal";
+import { BsThreeDotsVertical } from "react-icons/bs";
+import ProfileModal from "./ProfileModal";
 
 type Props = {
   setChannelId: (id: string) => void;
@@ -55,12 +57,18 @@ const ChannelsAndUsers: React.FC<Props> = ({
   channelId,
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const {
+    isOpen: isOpenProfile,
+    onOpen: onOpenProfile,
+    onClose: onCloseProfile,
+  } = useDisclosure();
 
   const { data: usersData } = useGetUsers();
   const { data: channelsData } = useGetChannels();
   const { currentUser } = useCurrentUser();
 
   const [createChannel] = useCreateChannel({ refetchQueries: [GET_CHANNELS] });
+  const [profileId, setProfileId] = useState<string>();
 
   useEffect(() => {
     if (!channelsData?.channels || !!threadId || !!channelId) return;
@@ -68,7 +76,7 @@ const ChannelsAndUsers: React.FC<Props> = ({
       (ch: Channel) => ch?.name === "general"
     ).id;
     setChannelId(generalChannelId);
-  }, [channelsData, currentUser?.id, setChannelId, threadId]);
+  }, [channelId, channelsData, currentUser?.id, setChannelId, threadId]);
 
   const finalChannels =
     channelsData?.channels?.filter(
@@ -103,6 +111,15 @@ const ChannelsAndUsers: React.FC<Props> = ({
 
   const createNewChannel = () => onOpen();
 
+  const _onOpenProfile = (
+    e: React.MouseEvent<HTMLButtonElement, globalThis.MouseEvent>,
+    id: string
+  ) => {
+    e.stopPropagation();
+    setProfileId(id);
+    onOpenProfile();
+  };
+
   return (
     <>
       <VStack
@@ -116,7 +133,9 @@ const ChannelsAndUsers: React.FC<Props> = ({
       >
         <VStack spacing="0" w="100%">
           <HStack justifyContent="space-between" w="100%">
-            <Text color="gray.100">CHANNELS</Text>
+            <Text color="gray.100" fontSize="xl">
+              channels
+            </Text>
             {currentUser?.isAdmin && (
               <IconButton
                 aria-label="send image"
@@ -142,8 +161,8 @@ const ChannelsAndUsers: React.FC<Props> = ({
             ))}
         </VStack>
         <VStack spacing="0" w="100%">
-          <Text color="gray.100" w="100%">
-            USERS
+          <Text color="gray.100" w="100%" fontSize="xl">
+            users
           </Text>
           {!!usersData?.users?.length &&
             usersData.users.map((u: User, i: number) => (
@@ -156,13 +175,24 @@ const ChannelsAndUsers: React.FC<Props> = ({
                 textAlign="left"
                 paddingLeft="10px"
               >
-                <HStack>
-                  <Avatar
-                    name={u.firstName + " " + u.lastName}
+                <HStack justifyContent="space-between">
+                  <HStack>
+                    <Avatar
+                      name={u.firstName + " " + u.lastName}
+                      size="xs"
+                      bg="#AED6F1"
+                    />
+                    <Text>{`${u.username}`}</Text>
+                  </HStack>
+                  <IconButton
                     size="xs"
-                    bg="#AED6F1"
+                    aria-label="show profile"
+                    icon={<BsThreeDotsVertical />}
+                    variant="unstyled"
+                    justifyContent="center"
+                    display="flex"
+                    onClick={(e) => _onOpenProfile(e, u.id)}
                   />
-                  <Text>{`${u.username}`}</Text>
                 </HStack>
               </Button>
             ))}
@@ -176,6 +206,12 @@ const ChannelsAndUsers: React.FC<Props> = ({
             usersData.users.filter((u: User) => u.id !== currentUser?.id)) ||
           []
         }
+      />
+      <ProfileModal
+        isOpen={isOpenProfile}
+        onClose={onCloseProfile}
+        userId={profileId || ""}
+        onOpenChat={onUserClick}
       />
     </>
   );
