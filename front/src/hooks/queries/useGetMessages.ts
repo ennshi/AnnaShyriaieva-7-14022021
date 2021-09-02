@@ -17,6 +17,7 @@ export const GET_MESSAGES = gql`
         }
         responses
         createdAt
+        toMessage
       }
       count
     }

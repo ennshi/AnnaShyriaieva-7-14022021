@@ -1,41 +1,37 @@
-import { Avatar, IconButton } from "@chakra-ui/react";
+import { Avatar, Icon, IconButton } from "@chakra-ui/react";
 import moment from "moment";
 import React, { useRef } from "react";
 import { IoMdAdd } from "react-icons/io";
 import { RiSendPlaneFill } from "react-icons/ri";
 import { useCurrentUser } from "../../contexts/currentUserContext";
 import { useSendMessage } from "../../hooks/mutations/useSendMessage";
-import { useGetMessages } from "../../hooks/queries/useGetMessages";
-import { useGetChannel } from "../../hooks/queries/useGetChannel";
 import { ChkrAvatarProps } from "../../lib/chakra-chat/components/ChkrAvatar";
 import ChkrChat from "../../lib/chakra-chat/components/ChkrChat";
 import ChkrHeader from "../../lib/chakra-chat/components/ChkrHeader";
 import { IMessage } from "../../lib/chakra-chat/types";
-import { Message, User } from "../../types";
+import { Message } from "../../types";
+import { useGetResponses } from "../../hooks/queries/useGetResponses";
 
 type Props = {
+  messageId: string;
   channelId: string;
-  onShowResponses: (id: string) => void;
+  onClose: () => void;
 };
 
 const limitItems = 20;
 
-const ChatView: React.FC<Props> = ({ channelId, onShowResponses }) => {
+const ThreadView: React.FC<Props> = ({ messageId, channelId, onClose }) => {
   const [sendMessage] = useSendMessage();
   const page = useRef(0);
   const { currentUser } = useCurrentUser();
 
-  const { data: channel } = useGetChannel({
-    variables: { id: channelId },
-  });
-
   const {
-    data: messagesData,
+    data: responsesData,
     fetchMore,
     loading,
     refetch,
-  } = useGetMessages({
-    variables: { offset: page.current, limit: limitItems, channelId },
+  } = useGetResponses({
+    variables: { offset: page.current, limit: limitItems, messageId },
   });
 
   const onLoadMore = async () => {
@@ -43,8 +39,8 @@ const ChatView: React.FC<Props> = ({ channelId, onShowResponses }) => {
     page.current += 1;
   };
 
-  const chkrMessages = messagesData?.messages?.messages?.map(
-    ({ id, text, image, from, responses, createdAt }: Message) =>
+  const chkrMessages = responsesData?.responses?.messages?.map(
+    ({ id, text, image, from, createdAt }: Message) =>
       ({
         _id: id,
         text,
@@ -53,7 +49,6 @@ const ChatView: React.FC<Props> = ({ channelId, onShowResponses }) => {
           _id: from?.id,
           name: from?.firstName + " " + from?.lastName,
         },
-        responses,
         createdAt: moment(createdAt, "x").toISOString(),
       } as IMessage)
   );
@@ -65,47 +60,34 @@ const ChatView: React.FC<Props> = ({ channelId, onShowResponses }) => {
           text: message,
           channelId,
           image,
+          toMessageId: messageId,
         },
       });
       if (sentMessage) await refetch();
     } catch (e) {}
   };
 
-  const chatHeaderTitle = () => {
-    if (!channel?.channel?.name) return;
-    if (channel.channel.name.includes("direct--")) {
-      const recipient = channel.channel.users.filter(
-        (u: User) => u.id !== currentUser?.id
-      )[0];
-      return { _id: recipient.id, name: recipient.username };
-    }
-    if (channel.channel.name.includes("saved--")) {
-      return { _id: currentUser?.id, name: currentUser?.username };
-    }
-    return { _id: channelId, name: "#" + channel.channel.name };
-  };
-
   const renderHeader = () => {
     return (
       <ChkrHeader
-        recipient={chatHeaderTitle()}
-        // leftButton={
-        //   <IconButton
-        //     aria-label="back button"
-        //     bg="transparent"
-        //     iconColor="blue"
-        //     onClick={() => console.log("GO BACK")}
-        //   >
-        //     <Icon icon="arrow-back" />
-        //   </IconButton>
-        // }
-        displayRecipientAvatar={false}
+        recipient={{ _id: messageId, name: "Thread" }}
+        leftButton={
+          <IconButton
+            aria-label="back button"
+            bg="transparent"
+            iconColor="blue"
+            onClick={onClose}
+          >
+            <Icon icon="arrow-back" />
+          </IconButton>
+        }
         rightButton={
           <Avatar
             name={currentUser?.firstName + " " + currentUser?.lastName}
             bg="#AED6F1"
           />
         }
+        displayRecipientAvatar={false}
       />
     );
   };
@@ -133,7 +115,8 @@ const ChatView: React.FC<Props> = ({ channelId, onShowResponses }) => {
       onSend={onSend}
       onLoadEarlier={onLoadMore}
       hasNextPage={
-        messagesData?.messages?.messages?.length < messagesData?.messages?.count
+        responsesData?.messages?.messages?.length <
+        responsesData?.messages?.count
       }
       loading={loading}
       sendButton={
@@ -155,10 +138,9 @@ const ChatView: React.FC<Props> = ({ channelId, onShowResponses }) => {
           icon={<IoMdAdd />}
         />
       }
-      showResponses={(id) => onShowResponses(id)}
       renderAvatar={renderAvatar}
     />
   );
 };
 
-export default ChatView;
+export default ThreadView;

@@ -23,6 +23,8 @@ import ChannelModal from "./ChannelModal";
 
 type Props = {
   setChannelId: (id: string) => void;
+  threadId?: string;
+  channelId?: string;
 };
 
 const isCurrentUserSavedMessagesChannel = (
@@ -47,7 +49,11 @@ const isDirectChannelWithUser = (
   );
 };
 
-const ChannelsAndUsers: React.FC<Props> = ({ setChannelId }) => {
+const ChannelsAndUsers: React.FC<Props> = ({
+  setChannelId,
+  threadId,
+  channelId,
+}) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const { data: usersData } = useGetUsers();
@@ -57,12 +63,12 @@ const ChannelsAndUsers: React.FC<Props> = ({ setChannelId }) => {
   const [createChannel] = useCreateChannel({ refetchQueries: [GET_CHANNELS] });
 
   useEffect(() => {
-    if (!channelsData?.channels) return;
+    if (!channelsData?.channels || !!threadId || !!channelId) return;
     const generalChannelId = channelsData?.channels?.find(
       (ch: Channel) => ch?.name === "general"
     ).id;
     setChannelId(generalChannelId);
-  }, [channelsData, currentUser?.id, setChannelId]);
+  }, [channelsData, currentUser?.id, setChannelId, threadId]);
 
   const finalChannels =
     channelsData?.channels?.filter(

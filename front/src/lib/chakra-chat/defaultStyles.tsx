@@ -94,6 +94,7 @@ export const HEADER_CONTAINER_STYLE = {
   bg: "blue.700",
   py: "20px",
   px: "16px",
+  color: "white",
 };
 
 export const HEADER_AVATAR_STYLE = {

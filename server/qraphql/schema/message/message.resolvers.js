@@ -48,10 +48,15 @@ const resolvers = {
       if (!messageFound) throw new Error("Message doesn't exist");
       const filter = {
         where: { id: messageFound.responses },
+        order: [['updatedAt']],
         limit: input?.limit || 10,
         offset: input?.offset || 0,
       };
-      const messages = await Message.findAndCountAll(filter);
+      let messages = await Message.findAndCountAll(filter);
+      if (!messages.rows) {
+        messages = { ...messages, rows: [] };
+      }
+      messages.rows.unshift(messageFound);
       return {
         messages: messages.rows.map(async (m) => await extendMessage(m)),
         count: messages.count,

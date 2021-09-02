@@ -19,7 +19,7 @@ export type CreateChannelInput = {
 export type SendMessageInput = {
   text: string;
   image?: File;
-  toMessage?: string;
+  toMessageId?: string;
   channelId: string;
 };
 
