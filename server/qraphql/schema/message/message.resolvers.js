@@ -33,7 +33,7 @@ const resolvers = {
         where: input?.channelId
           ? { channel: input.channelId, toMessage: null }
           : { toMessage: null },
-        order: [['updatedAt']],
+        order: [['createdAt']],
         limit: input?.limit || 20,
         offset: input?.offset || 0,
       };
@@ -48,7 +48,7 @@ const resolvers = {
       if (!messageFound) throw new Error("Message doesn't exist");
       const filter = {
         where: { id: messageFound.responses },
-        order: [['updatedAt']],
+        order: [['createdAt']],
         limit: input?.limit || 10,
         offset: input?.offset || 0,
       };
