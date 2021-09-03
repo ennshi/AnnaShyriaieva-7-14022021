@@ -1,6 +1,6 @@
 import { Avatar, Icon, IconButton } from "@chakra-ui/react";
 import moment from "moment";
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { IoMdAdd } from "react-icons/io";
 import { RiSendPlaneFill } from "react-icons/ri";
 import { useCurrentUser } from "../../contexts/currentUserContext";
@@ -36,9 +36,15 @@ const ThreadView: React.FC<Props> = ({
     fetchMore,
     loading,
     refetch,
+    stopPolling,
   } = useGetResponses({
     variables: { offset: page.current, limit: limitItems, messageId },
+    pollInterval: 1000,
   });
+
+  useEffect(() => {
+    return stopPolling;
+  }, [stopPolling]);
 
   const onLoadMore = async () => {
     await fetchMore({ variables: { offset: page.current } });

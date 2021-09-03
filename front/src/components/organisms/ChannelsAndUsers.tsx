@@ -63,9 +63,19 @@ const ChannelsAndUsers: React.FC<Props> = ({
     onClose: onCloseProfile,
   } = useDisclosure();
 
-  const { data: usersData } = useGetUsers();
-  const { data: channelsData } = useGetChannels();
   const { currentUser } = useCurrentUser();
+  const { data: usersData, stopPolling: stopPollingUsers } = useGetUsers({
+    pollInterval: 1000,
+  });
+  const { data: channelsData, stopPolling: stopPollingChannels } =
+    useGetChannels({ pollInterval: 1000 });
+
+  useEffect(() => {
+    return () => {
+      stopPollingChannels();
+      stopPollingUsers();
+    };
+  }, [stopPollingChannels, stopPollingUsers]);
 
   const [createChannel] = useCreateChannel({ refetchQueries: [GET_CHANNELS] });
   const [profileId, setProfileId] = useState<string>();

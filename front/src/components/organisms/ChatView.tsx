@@ -1,6 +1,6 @@
 import { Avatar, IconButton } from "@chakra-ui/react";
 import moment from "moment";
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { IoMdAdd } from "react-icons/io";
 import { RiSendPlaneFill } from "react-icons/ri";
 import { useCurrentUser } from "../../contexts/currentUserContext";
@@ -30,9 +30,14 @@ const ChatView: React.FC<Props> = ({
   const page = useRef(0);
   const { currentUser } = useCurrentUser();
 
-  const { data: channel } = useGetChannel({
+  const { data: channel, stopPolling } = useGetChannel({
     variables: { id: channelId },
+    pollInterval: 1000,
   });
+
+  useEffect(() => {
+    return stopPolling;
+  }, [stopPolling]);
 
   const {
     data: messagesData,
