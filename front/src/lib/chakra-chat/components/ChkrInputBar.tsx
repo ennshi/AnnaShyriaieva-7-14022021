@@ -57,7 +57,6 @@ const ChkrInputBar: React.FC<ChkrInputBarProps> = ({
     textAreaPrevHeight.current = textAreaRef?.current?.offsetHeight;
   }, []);
 
-  //TODO same image error
   const imageElement = useMemo(() => {
     if (image)
       return (
@@ -153,7 +152,13 @@ const ChkrInputBar: React.FC<ChkrInputBarProps> = ({
         </Flex>
         {renderAttachImageButton()}
         {!!attachImageButton && (
-          <Input type="file" hidden ref={imageInput} onChange={attachImage} />
+          <Input
+            type="file"
+            hidden
+            ref={imageInput}
+            onChange={attachImage}
+            value={""}
+          />
         )}
         {renderSendButton()}
       </HStack>

@@ -1,6 +1,3 @@
-// import colors, { colorsGradient } from '../../themes/mainTheme/colors'
-// import { FONT_FAMILY } from '../../themes/mainTheme/textStyles'
-
 export const CHAT_CONTAINER_STYLE = {
   bg: "white",
 };
@@ -17,7 +14,6 @@ export const BUBBLE_STYLE = {
     fontSize: "14px",
     fontWeight: "400",
     lineHeight: "24px",
-    // fontFamily: FONT_FAMILY.SOURCE_SANS_PRO,
   },
   image: {
     w: "70px",
@@ -53,11 +49,9 @@ export const DATE_WRAPPER_STYLE = {
 };
 
 export const DATE_TEXT_STYLE = {
-  // color: colors.text.tertiary,
   fontSize: "12px",
   fontWeight: "400",
   lineHeight: "16px",
-  // fontFamily: FONT_FAMILY.SOURCE_SANS_PRO,
 };
 
 export const INPUT_BAR_STYLE = {
@@ -91,7 +85,7 @@ export const TEXTAREA_PROPS = {
 };
 
 export const HEADER_CONTAINER_STYLE = {
-  bg: "blue.700",
+  bg: "brand.primary",
   py: "20px",
   px: "16px",
   color: "white",

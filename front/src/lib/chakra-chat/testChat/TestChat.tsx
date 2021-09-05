@@ -12,7 +12,7 @@ import {
 
 import ChkrBubble, { ChkrBubbleProps } from "../components/ChkrBubble";
 import ChkrChat from "../components/ChkrChat";
-import ChkrHeader, { ChkrHeaderProps } from "../components/ChkrHeader";
+import ChkrHeader from "../components/ChkrHeader";
 import { IMessage } from "../types";
 import DEFAULT_MESSAGES from "./messages";
 import { RiSendPlaneFill } from "react-icons/ri";
