@@ -47,7 +47,6 @@ export const ApolloContextProvider: React.FC = ({ children }) => {
     localStorage.getItem("token")
   );
 
-  console.log(token);
   useEffect(() => {
     if (token) localStorage.setItem("token", token);
     else localStorage.removeItem("token");

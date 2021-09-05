@@ -1,4 +1,4 @@
-import { useDisclosure } from "@chakra-ui/react";
+import { useDisclosure, VStack, Text } from "@chakra-ui/react";
 import React, { useState } from "react";
 
 import { IMessage, User } from "../types";
@@ -69,7 +69,13 @@ const ChkrMessages: <TMessage extends IMessage = IMessage>(
       return messages.map((message, i) =>
         renderRow({ item: message, index: i })
       );
-    return null;
+    return (
+      <VStack justifyContent="flex-end" h="100vh">
+        <Text fontSize="md" color="gray.400" mb="20px">
+          Commencez votre communication...
+        </Text>
+      </VStack>
+    );
   };
 
   return (

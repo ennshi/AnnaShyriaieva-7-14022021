@@ -131,7 +131,7 @@ const ChkrInputBar: React.FC<ChkrInputBarProps> = ({
           <Box width="100%">
             <Textarea
               minH="unset"
-              overflowY="scroll"
+              overflowY="auto"
               flex={1}
               resize="none"
               as={ResizeTextarea}

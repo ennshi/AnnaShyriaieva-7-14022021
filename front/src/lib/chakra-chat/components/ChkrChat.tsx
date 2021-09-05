@@ -145,7 +145,7 @@ const ChkrChat: <TMessage extends IMessage = IMessage>(
                 ref={infiniteRef as unknown as React.RefObject<HTMLDivElement>}
                 w="100%"
               >
-                {loading && <Text color="red">Loading</Text>}
+                {/* {loading && <Text color="red">Loading</Text>} */}
               </Box>
             )}
             {renderMessages()}

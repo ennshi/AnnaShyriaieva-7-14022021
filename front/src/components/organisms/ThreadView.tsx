@@ -96,7 +96,7 @@ const ThreadView: React.FC<Props> = ({
         rightButton={
           <Avatar
             name={currentUser?.firstName + " " + currentUser?.lastName}
-            bg="#AED6F1"
+            bg="brand.primary.300"
             cursor="pointer"
             onClick={onOpenCurrentUserProfile}
           />
@@ -112,7 +112,7 @@ const ThreadView: React.FC<Props> = ({
       <Avatar
         name={props.currentMessage?.user.name}
         size="xs"
-        backgroundColor="#AED6F1"
+        backgroundColor="brand.primary.300"
       />
     );
   };

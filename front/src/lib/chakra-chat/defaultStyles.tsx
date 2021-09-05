@@ -1,5 +1,5 @@
 export const CHAT_CONTAINER_STYLE = {
-  bg: "white",
+  bg: "brand.primary.100",
 };
 
 export const MESSAGE_CONTAINER_STYLE = {
@@ -28,13 +28,13 @@ export const BUBBLE_STYLE = {
     flex: 1,
   },
   left: {
-    bg: "#AED6F1",
+    bg: "brand.primary.300",
     borderRadius: BORDER_RADIUS_BIG,
     borderBottomLeftRadius: BORDER_RADIUS_PETIT,
     maxW: "350px",
   },
   right: {
-    bg: "#AED6F1",
+    bg: "brand.primary.300",
     borderRadius: BORDER_RADIUS_BIG,
     borderBottomRightRadius: BORDER_RADIUS_PETIT,
     ml: "29px",
@@ -50,13 +50,14 @@ export const DATE_WRAPPER_STYLE = {
 
 export const DATE_TEXT_STYLE = {
   fontSize: "12px",
-  fontWeight: "400",
+  fontWeight: "600",
   lineHeight: "16px",
+  color: "brand.primary.700",
 };
 
 export const INPUT_BAR_STYLE = {
   wrapper: {
-    bg: "brand.secondary",
+    bg: "brand.primary.500",
     px: "16px",
   },
   inputbar: {
@@ -85,7 +86,7 @@ export const TEXTAREA_PROPS = {
 };
 
 export const HEADER_CONTAINER_STYLE = {
-  bg: "brand.primary",
+  bg: "brand.primary.500",
   py: "20px",
   px: "16px",
   color: "white",

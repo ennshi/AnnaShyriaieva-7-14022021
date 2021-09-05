@@ -63,12 +63,12 @@ const ChannelModal: React.FC<Props> = ({
       {!!user?.user && (
         <ModalContent>
           <ModalBody px="30px" py="30px">
-            <ModalCloseButton onClick={_onClose} />
+            <ModalCloseButton onClick={_onClose} _focus={{ border: "none" }} />
             <VStack spacing="15px" width="100%">
               <Avatar
                 name={user?.user.firstName + " " + user?.user.lastName}
                 size="md"
-                bg="#AED6F1"
+                bg="brand.primary.300"
               />
               <Text fontSize="md" color="brand.primary" fontWeight="semibold">
                 {user?.user.email}

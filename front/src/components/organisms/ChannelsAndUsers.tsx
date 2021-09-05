@@ -101,8 +101,12 @@ const ChannelsAndUsers: React.FC<ChannelsAndUsersProps> = ({
         !isCurrentUserSavedMessagesChannel(ch.name, currentUser?.id || "")
     ) || [];
 
-  const onChannelClick = (id: string) => setChannelId(id);
+  const onChannelClick = (id: string) => {
+    closeDrawer && closeDrawer();
+    setChannelId(id);
+  };
   const onUserClick = async (userId: string) => {
+    closeDrawer && closeDrawer();
     const foundChannel = channelsData?.channels?.find((ch: Channel) =>
       userId === currentUser?.id
         ? isCurrentUserSavedMessagesChannel(ch?.name, currentUser?.id)
@@ -140,11 +144,11 @@ const ChannelsAndUsers: React.FC<ChannelsAndUsersProps> = ({
     <>
       <VStack
         w={width || "300px"}
-        bgColor="brand.primary"
+        bgColor="brand.primary.700"
         height="100vh"
         spacing="20px"
         textAlign="left"
-        overflowY="scroll"
+        overflowY="auto"
         px="10px"
       >
         <VStack spacing="0" w="100%">
@@ -155,6 +159,7 @@ const ChannelsAndUsers: React.FC<ChannelsAndUsersProps> = ({
                 bg="transparent"
                 onClick={closeDrawer}
                 icon={<IoChevronBackSharp color="white" />}
+                _focus={{ border: "none" }}
               />
             </HStack>
           )}
@@ -174,6 +179,7 @@ const ChannelsAndUsers: React.FC<ChannelsAndUsersProps> = ({
                 width={10}
                 onClick={createNewChannel}
                 icon={<IoMdAdd color="white" />}
+                _focus={{ border: "none" }}
               />
             )}
           </HStack>
@@ -187,6 +193,7 @@ const ChannelsAndUsers: React.FC<ChannelsAndUsersProps> = ({
                 w="100%"
                 textAlign="left"
                 paddingLeft="10px"
+                _focus={{ border: "none" }}
               >{`#${ch.name}`}</Button>
             ))}
         </VStack>
@@ -204,13 +211,14 @@ const ChannelsAndUsers: React.FC<ChannelsAndUsersProps> = ({
                 w="100%"
                 textAlign="left"
                 paddingLeft="10px"
+                _focus={{ border: "none" }}
               >
                 <HStack justifyContent="space-between">
                   <HStack>
                     <Avatar
                       name={u.firstName + " " + u.lastName}
                       size="xs"
-                      bg="#AED6F1"
+                      bg="brand.primary.300"
                     />
                     <Text>{`${u.username}`}</Text>
                   </HStack>
@@ -222,6 +230,7 @@ const ChannelsAndUsers: React.FC<ChannelsAndUsersProps> = ({
                     justifyContent="center"
                     display="flex"
                     onClick={(e) => _onOpenProfile(e, u.id)}
+                    _focus={{ border: "none" }}
                   />
                 </HStack>
               </Button>

@@ -121,7 +121,7 @@ const AuthModal: React.FC<Props> = ({ isOpen, onClose }) => {
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
-      <ModalOverlay bg="brand.primary" />
+      <ModalOverlay bg="brand.primary.500" />
       <ModalContent>
         <ModalBody px="30px" py="30px">
           <Grid placeItems="center">

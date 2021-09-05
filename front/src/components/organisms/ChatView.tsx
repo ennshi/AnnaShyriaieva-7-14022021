@@ -54,7 +54,6 @@ const ChatView: React.FC<Props> = ({
     pollInterval: 1000,
   });
 
-  console.log("messagesData", messagesData);
   const onLoadMore = async () => {
     await fetchMore({ variables: { offset: page.current } });
     page.current += 1;
@@ -114,6 +113,7 @@ const ChatView: React.FC<Props> = ({
               iconColor="blue"
               onClick={openDrawer}
               icon={<IoChevronBackSharp />}
+              _focus={{ border: "none" }}
             />
           )
         }
@@ -121,7 +121,7 @@ const ChatView: React.FC<Props> = ({
         rightButton={
           <Avatar
             name={currentUser?.firstName + " " + currentUser?.lastName}
-            bg="#AED6F1"
+            bg="brand.primary.300"
             cursor="pointer"
             onClick={onOpenCurrentUserProfile}
           />
@@ -136,7 +136,7 @@ const ChatView: React.FC<Props> = ({
       <Avatar
         name={props.currentMessage?.user.name}
         size="xs"
-        backgroundColor="#AED6F1"
+        backgroundColor="brand.primary.300"
       />
     );
   };

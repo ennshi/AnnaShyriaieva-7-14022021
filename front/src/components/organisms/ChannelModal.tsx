@@ -70,7 +70,7 @@ const ChannelModal: React.FC<Props> = ({ isOpen, onClose, users }) => {
     <Modal isOpen={isOpen} onClose={_onClose}>
       <ModalContent>
         <ModalBody px="30px" py="30px">
-          <ModalCloseButton onClick={_onClose} />
+          <ModalCloseButton onClick={_onClose} _focus={{ border: "none" }} />
           <VStack spacing="15px" width="100%">
             <Text fontSize="xl" color="brand.secondary" fontWeight="bold">
               Create Channel
