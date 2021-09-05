@@ -15,6 +15,7 @@ import { useGetUser } from "../../hooks/queries/useGetUser";
 import { useCurrentUser } from "../../contexts/currentUserContext";
 import { useDeleteUser } from "../../hooks/mutations/useDeleteUser";
 import { GET_USERS } from "../../hooks/queries/useGetUsers";
+import { useApollo } from "../../contexts/apolloContext";
 
 type Props = {
   isOpen: boolean;
@@ -32,6 +33,7 @@ const ChannelModal: React.FC<Props> = ({
   const { data: user } = useGetUser({ variables: { id: userId } });
   const { currentUser } = useCurrentUser();
   const [deleteUser] = useDeleteUser();
+  const { clearToken } = useApollo();
 
   const _onClose = () => {
     onClose();
@@ -52,7 +54,10 @@ const ChannelModal: React.FC<Props> = ({
     } catch (e) {}
   };
 
-  const isCurrentUserAdmin = userId === currentUser?.id && currentUser.isAdmin;
+  const onLogOut = () => clearToken();
+
+  const isCurrentUser = userId === currentUser?.id;
+
   return (
     <Modal isOpen={isOpen} onClose={_onClose}>
       {!!user?.user && (
@@ -75,15 +80,15 @@ const ChannelModal: React.FC<Props> = ({
                 {user?.user.firstName} {user?.user.lastName}
               </Text>
             </VStack>
-            {!!onOpenChat && (
-              <HStack justifyContent="space-evenly" mt="30px">
-                <Button onClick={_onOpenChat}>Open chat</Button>
-                {(!user?.user.isAdmin || isCurrentUserAdmin) &&
-                  currentUser?.isAdmin && (
-                    <Button onClick={onDeleteUser}>Delete</Button>
-                  )}
-              </HStack>
-            )}
+            <HStack justifyContent="space-evenly" mt="30px">
+              {!!onOpenChat && <Button onClick={_onOpenChat}>Open chat</Button>}
+              {(isCurrentUser || currentUser?.isAdmin) && (
+                <Button onClick={onDeleteUser}>Delete</Button>
+              )}
+              {!onOpenChat && isCurrentUser && (
+                <Button onClick={onLogOut}>Log out</Button>
+              )}
+            </HStack>
           </ModalBody>
         </ModalContent>
       )}

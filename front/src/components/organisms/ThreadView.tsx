@@ -1,4 +1,4 @@
-import { Avatar, Icon, IconButton } from "@chakra-ui/react";
+import { Avatar, IconButton } from "@chakra-ui/react";
 import moment from "moment";
 import React, { useEffect, useRef } from "react";
 import { IoMdAdd } from "react-icons/io";
@@ -11,6 +11,7 @@ import ChkrHeader from "../../lib/chakra-chat/components/ChkrHeader";
 import { IMessage } from "../../lib/chakra-chat/types";
 import { Message } from "../../types";
 import { useGetResponses } from "../../hooks/queries/useGetResponses";
+import { IoChevronBackSharp } from "react-icons/io5";
 
 type Props = {
   messageId: string;
@@ -89,9 +90,8 @@ const ThreadView: React.FC<Props> = ({
             bg="transparent"
             iconColor="blue"
             onClick={onClose}
-          >
-            <Icon icon="arrow-back" />
-          </IconButton>
+            icon={<IoChevronBackSharp />}
+          />
         }
         rightButton={
           <Avatar

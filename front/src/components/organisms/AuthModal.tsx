@@ -72,11 +72,11 @@ const AuthModal: React.FC<Props> = ({ isOpen, onClose }) => {
   const [
     login,
     { loading: isLoadingLogin, data: loginToken, error: loginError },
-  ] = useLogin({});
+  ] = useLogin({ fetchPolicy: "no-cache" });
   const [
     signUp,
     { data: signUpSuccess, error: signUpError, loading: isLoadingSignUp },
-  ] = useSignUp();
+  ] = useSignUp({ fetchPolicy: "no-cache" });
 
   useEffect(() => {
     if (loginError) {

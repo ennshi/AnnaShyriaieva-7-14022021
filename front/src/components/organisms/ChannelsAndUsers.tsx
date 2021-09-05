@@ -22,11 +22,14 @@ import { Channel, User } from "../../types";
 import ChannelModal from "./ChannelModal";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import ProfileModal from "./ProfileModal";
+import { IoChevronBackSharp } from "react-icons/io5";
 
-type Props = {
+export type ChannelsAndUsersProps = {
   setChannelId: (id: string) => void;
   threadId?: string;
   channelId?: string;
+  width?: string;
+  closeDrawer?: () => void;
 };
 
 const isCurrentUserSavedMessagesChannel = (
@@ -51,12 +54,15 @@ const isDirectChannelWithUser = (
   );
 };
 
-const ChannelsAndUsers: React.FC<Props> = ({
+const ChannelsAndUsers: React.FC<ChannelsAndUsersProps> = ({
   setChannelId,
   threadId,
   channelId,
+  width,
+  closeDrawer,
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+
   const {
     isOpen: isOpenProfile,
     onOpen: onOpenProfile,
@@ -133,7 +139,7 @@ const ChannelsAndUsers: React.FC<Props> = ({
   return (
     <>
       <VStack
-        width="300px"
+        w={width || "300px"}
         bgColor="brand.primary"
         height="100vh"
         spacing="20px"
@@ -142,9 +148,23 @@ const ChannelsAndUsers: React.FC<Props> = ({
         px="10px"
       >
         <VStack spacing="0" w="100%">
-          <HStack justifyContent="space-between" w="100%">
-            <Text color="gray.100" fontSize="xl">
-              channels
+          {closeDrawer && (
+            <HStack w="100%">
+              <IconButton
+                aria-label="back button"
+                bg="transparent"
+                onClick={closeDrawer}
+                icon={<IoChevronBackSharp color="white" />}
+              />
+            </HStack>
+          )}
+          <HStack
+            justifyContent="space-between"
+            w="100%"
+            mt={!!closeDrawer ? 0 : "40px"}
+          >
+            <Text color="gray.100" fontSize="l">
+              Channels
             </Text>
             {currentUser?.isAdmin && (
               <IconButton
@@ -171,8 +191,8 @@ const ChannelsAndUsers: React.FC<Props> = ({
             ))}
         </VStack>
         <VStack spacing="0" w="100%">
-          <Text color="gray.100" w="100%" fontSize="xl">
-            users
+          <Text color="gray.100" w="100%" fontSize="l">
+            Users
           </Text>
           {!!usersData?.users?.length &&
             usersData.users.map((u: User, i: number) => (

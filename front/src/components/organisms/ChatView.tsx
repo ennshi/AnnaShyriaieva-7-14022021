@@ -12,11 +12,14 @@ import ChkrChat from "../../lib/chakra-chat/components/ChkrChat";
 import ChkrHeader from "../../lib/chakra-chat/components/ChkrHeader";
 import { IMessage } from "../../lib/chakra-chat/types";
 import { Message, User } from "../../types";
+import useWindowDimensions from "../../hooks/useWindowDimensions";
+import { IoChevronBackSharp } from "react-icons/io5";
 
 type Props = {
   channelId: string;
   onShowResponses: (id: string) => void;
   onOpenCurrentUserProfile: () => void;
+  openDrawer: () => void;
 };
 
 const limitItems = 20;
@@ -25,14 +28,16 @@ const ChatView: React.FC<Props> = ({
   channelId,
   onShowResponses,
   onOpenCurrentUserProfile,
+  openDrawer,
 }) => {
   const [sendMessage] = useSendMessage();
   const page = useRef(0);
   const { currentUser } = useCurrentUser();
+  const { width } = useWindowDimensions();
+  const isSmallScreen = width < 600;
 
   const { data: channel, stopPolling } = useGetChannel({
     variables: { id: channelId },
-    pollInterval: 1000,
   });
 
   useEffect(() => {
@@ -46,8 +51,10 @@ const ChatView: React.FC<Props> = ({
     refetch,
   } = useGetMessages({
     variables: { offset: page.current, limit: limitItems, channelId },
+    pollInterval: 1000,
   });
 
+  console.log("messagesData", messagesData);
   const onLoadMore = async () => {
     await fetchMore({ variables: { offset: page.current } });
     page.current += 1;
@@ -99,16 +106,17 @@ const ChatView: React.FC<Props> = ({
     return (
       <ChkrHeader
         recipient={chatHeaderTitle()}
-        // leftButton={
-        //   <IconButton
-        //     aria-label="back button"
-        //     bg="transparent"
-        //     iconColor="blue"
-        //     onClick={() => console.log("GO BACK")}
-        //   >
-        //     <Icon icon="arrow-back" />
-        //   </IconButton>
-        // }
+        leftButton={
+          isSmallScreen && (
+            <IconButton
+              aria-label="back button"
+              bg="transparent"
+              iconColor="blue"
+              onClick={openDrawer}
+              icon={<IoChevronBackSharp />}
+            />
+          )
+        }
         displayRecipientAvatar={false}
         rightButton={
           <Avatar
