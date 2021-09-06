@@ -38,7 +38,7 @@ query getMessages {
   }
 }
 mutation createUser {
-  createUser(input: {firstName: "Anna", username: "anna1", lastName: "Shi", password: "qwerty1234", isAdmin: false, email: aaa@gmail.com}) {
+  createUser(input: {firstName: "Anna", username: "anna1", lastName: "Shi", password: "qwerty1234", isAdmin: false, email: "aaa@gmail.com"}) {
     ...UserData
   }
 }

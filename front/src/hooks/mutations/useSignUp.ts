@@ -17,7 +17,6 @@ export const SIGN_UP = gql`
         firstName: $firstName
         lastName: $lastName
         email: $email
-        isAdmin: false
       }
     ) {
       id

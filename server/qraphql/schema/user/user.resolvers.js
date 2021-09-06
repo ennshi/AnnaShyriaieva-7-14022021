@@ -45,7 +45,7 @@ const resolvers = {
   },
   Mutation: {
     createUser: async (_, { input }) => {
-      const { username, firstName, lastName, password, isAdmin, email } = input;
+      const { username, firstName, lastName, password, email } = input;
       const userFound = await User.findOne({ where: { username } });
       if (userFound) throw new Error('User already exists');
       const hashedPassword = await bcrypt.hash(password, 12);
@@ -55,7 +55,7 @@ const resolvers = {
         lastName,
         email,
         password: hashedPassword,
-        isAdmin,
+        isAdmin: false,
       });
       //to create general channel
       let generalChannel = await Channel.findOne({

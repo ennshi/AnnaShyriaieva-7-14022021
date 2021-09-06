@@ -8,6 +8,7 @@ export const GET_RESPONSES = gql`
       messages {
         id
         text
+        image
         from {
           id
           username
