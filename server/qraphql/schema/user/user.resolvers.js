@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const User = require('../../../models/User');
 const Channel = require('../../../models/Channel');
-const { extendUser } = require('../helpers');
+const { extendUser, validateUser } = require('../helpers');
 
 const resolvers = {
   Query: {
@@ -45,9 +45,14 @@ const resolvers = {
   },
   Mutation: {
     createUser: async (_, { input }) => {
+      const validationErrors = validateUser(input);
+      if (validationErrors.length) throw new Error(validationErrors[0]);
+
       const { username, firstName, lastName, password, email } = input;
+
       const userFound = await User.findOne({ where: { username } });
       if (userFound) throw new Error('User already exists');
+
       const hashedPassword = await bcrypt.hash(password, 12);
       const createdUser = await User.create({
         username,

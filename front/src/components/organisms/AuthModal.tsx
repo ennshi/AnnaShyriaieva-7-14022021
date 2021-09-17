@@ -131,7 +131,9 @@ const AuthModal: React.FC<Props> = ({ isOpen, onClose }) => {
             initialValues={initialValues}
             onSubmit={onSubmit}
             validationSchema={
-              isSigningUp ? signUpValidationSchema : loginValidationSchema
+              isSigningUp
+                ? loginValidationSchema.concat(signUpValidationSchema)
+                : loginValidationSchema
             }
           >
             {({
