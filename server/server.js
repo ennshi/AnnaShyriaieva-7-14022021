@@ -1,4 +1,5 @@
 const express = require('express');
+const helmet = require('helmet');
 const sequelize = require('./utils/database');
 const { graphqlHTTP } = require('express-graphql');
 const { graphqlUploadExpress } = require('graphql-upload');
@@ -11,6 +12,8 @@ const isAuth = require('./middlewares/auth');
 
 const port = process.env.PORT;
 const app = express();
+
+app.use(helmet());
 
 app.use(
   cors({
