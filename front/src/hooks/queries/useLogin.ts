@@ -1,6 +1,10 @@
 import { gql, LazyQueryHookOptions } from "@apollo/client";
-import { LoginInput } from "../../types";
 import { useCustomLazyQuery } from "./useCustomLazyQuery";
+
+type LoginInput = {
+  username: string;
+  password: string;
+};
 
 export const LOGIN = gql`
   query login($username: String!, $password: String!) {
@@ -9,4 +13,4 @@ export const LOGIN = gql`
 `;
 
 export const useLogin = (props: LazyQueryHookOptions<any, LoginInput>) =>
-  useCustomLazyQuery<LoginInput>(LOGIN, props);
+  useCustomLazyQuery<any, LoginInput>(LOGIN, props);

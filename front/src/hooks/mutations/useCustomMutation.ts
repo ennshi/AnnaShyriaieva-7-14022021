@@ -6,9 +6,14 @@ import {
   useMutation,
 } from "@apollo/client";
 
-export const useCustomMutation = <T>(
+export const useCustomMutation = <TResponse, TInput>(
   mutation: DocumentNode,
-  options?: MutationHookOptions<any, T, DefaultContext, ApolloCache<any>>
+  options?: MutationHookOptions<
+    TResponse,
+    TInput,
+    DefaultContext,
+    ApolloCache<any>
+  >
 ) => {
   return useMutation(mutation, options);
 };

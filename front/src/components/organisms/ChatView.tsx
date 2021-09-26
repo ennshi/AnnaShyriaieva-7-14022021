@@ -96,9 +96,9 @@ const ChatView: React.FC<Props> = ({
       return { _id: recipient.id, name: recipient.username };
     }
     if (channel.channel.name.includes("saved--")) {
-      return { _id: currentUser?.id, name: currentUser?.username };
+      return { _id: currentUser?.id || "", name: currentUser?.username };
     }
-    return { _id: channelId, name: "#" + channel.channel.name };
+    return { _id: channelId || "", name: "#" + channel.channel.name };
   };
 
   const renderHeader = () => {
@@ -153,7 +153,8 @@ const ChatView: React.FC<Props> = ({
       onSend={onSend}
       onLoadEarlier={onLoadMore}
       hasNextPage={
-        messagesData?.messages?.messages?.length < messagesData?.messages?.count
+        (messagesData?.messages?.messages?.length || 0) <
+        (messagesData?.messages?.count || 0)
       }
       loading={loading}
       sendButton={

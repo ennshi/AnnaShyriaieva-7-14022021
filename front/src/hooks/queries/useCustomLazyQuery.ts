@@ -4,9 +4,9 @@ import {
   useLazyQuery,
 } from "@apollo/client";
 
-export const useCustomLazyQuery = <T>(
+export const useCustomLazyQuery = <TResponse, TInput>(
   query: DocumentNode,
-  options: LazyQueryHookOptions<any, T>
+  options: LazyQueryHookOptions<TResponse, TInput>
 ) => {
   return useLazyQuery(query, options);
 };

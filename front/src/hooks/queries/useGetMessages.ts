@@ -1,6 +1,14 @@
 import { gql, QueryHookOptions } from "@apollo/client";
-import { GetMessagesInput } from "../../types";
+import { Message } from "../../types";
 import { useCustomQuery } from "./useCustomQuery";
+
+type GetMessagesInput = {
+  channelId: string;
+  offset: number;
+  limit: number;
+};
+
+type GetMessagesResponse = { messages: { messages: Message[]; count: number } };
 
 export const GET_MESSAGES = gql`
   query getMessages($channelId: ID, $offset: Int, $limit: Int) {
@@ -25,5 +33,5 @@ export const GET_MESSAGES = gql`
 `;
 
 export const useGetMessages = (
-  props: QueryHookOptions<GetMessagesInput> = {}
+  props: QueryHookOptions<GetMessagesResponse, GetMessagesInput> = {}
 ) => useCustomQuery(GET_MESSAGES, props);

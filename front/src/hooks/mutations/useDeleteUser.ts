@@ -1,6 +1,13 @@
 import { gql, MutationHookOptions } from "@apollo/client";
-import { DeleteUserInput } from "../../types";
 import { useCustomMutation } from "./useCustomMutation";
+
+type DeleteUserInput = {
+  id: string;
+};
+
+type DeleteUserResponse = {
+  user: { id: string };
+};
 
 export const DELETE_USER = gql`
   mutation deleteUser($id: ID!) {
@@ -9,5 +16,5 @@ export const DELETE_USER = gql`
 `;
 
 export const useDeleteUser = (
-  props?: MutationHookOptions<any, DeleteUserInput>
-) => useCustomMutation<DeleteUserInput>(DELETE_USER, props);
+  props?: MutationHookOptions<DeleteUserResponse, DeleteUserInput>
+) => useCustomMutation<DeleteUserResponse, DeleteUserInput>(DELETE_USER, props);

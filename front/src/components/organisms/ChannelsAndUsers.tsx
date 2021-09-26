@@ -91,8 +91,8 @@ const ChannelsAndUsers: React.FC<ChannelsAndUsersProps> = ({
     if (!channelsData?.channels || !!threadId || !!channelId) return;
     const generalChannelId = channelsData?.channels?.find(
       (ch: Channel) => ch?.name === "general"
-    ).id;
-    setChannelId(generalChannelId);
+    )?.id;
+    setChannelId(generalChannelId || "");
   }, [channelId, channelsData, currentUser?.id, setChannelId, threadId]);
 
   const finalChannels =
@@ -124,7 +124,7 @@ const ChannelsAndUsers: React.FC<ChannelsAndUsersProps> = ({
           users: userId === currentUser?.id ? [] : [userId],
         },
       });
-      setChannelId(createdChannel?.data?.channel?.id);
+      setChannelId(createdChannel?.data?.channel?.id || "");
     } catch (e) {
       console.log(e);
     }

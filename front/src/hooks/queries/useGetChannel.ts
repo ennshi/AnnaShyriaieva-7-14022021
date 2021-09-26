@@ -1,6 +1,10 @@
 import { gql, QueryHookOptions } from "@apollo/client";
-import { GetChannelInput } from "../../types";
+import { Channel } from "../../types";
+
 import { useCustomQuery } from "./useCustomQuery";
+
+type GetChannelInput = { id: string };
+type GetChannelResponse = { channel: Channel };
 
 export const GET_CHANNEL = gql`
   query getChannel($id: ID!) {
@@ -15,5 +19,6 @@ export const GET_CHANNEL = gql`
   }
 `;
 
-export const useGetChannel = (props: QueryHookOptions<GetChannelInput> = {}) =>
-  useCustomQuery(GET_CHANNEL, props);
+export const useGetChannel = (
+  props: QueryHookOptions<GetChannelResponse, GetChannelInput> = {}
+) => useCustomQuery(GET_CHANNEL, props);
