@@ -83,7 +83,7 @@ const ThreadView: React.FC<Props> = ({
   const renderHeader = () => {
     return (
       <ChkrHeader
-        recipient={{ _id: messageId, name: "Thread" }}
+        recipient={{ _id: messageId, name: "Discussion" }}
         leftButton={
           <IconButton
             aria-label="back button"

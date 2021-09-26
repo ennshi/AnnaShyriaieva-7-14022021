@@ -72,12 +72,12 @@ const ChannelModal: React.FC<Props> = ({ isOpen, onClose, users }) => {
         <ModalBody px="30px" py="30px">
           <ModalCloseButton onClick={_onClose} _focus={{ border: "none" }} />
           <VStack spacing="15px" width="100%">
-            <Text fontSize="xl" color="brand.secondary" fontWeight="bold">
-              Create Channel
+            <Text fontSize="xl" color="brand.secondary.600" fontWeight="bold">
+              Créer un chat
             </Text>
             <Input
               name="channelName"
-              placeholder="Name"
+              placeholder="Nom"
               onChange={(e) => setChannelName(e.target.value)}
               maxWidth="300px"
             />
@@ -100,7 +100,7 @@ const ChannelModal: React.FC<Props> = ({ isOpen, onClose, users }) => {
             {error && (
               <Text
                 fontSize="xs"
-                color="red.200"
+                color="brand.secondary.800"
                 width="100%"
                 my="5px"
                 textAlign="center"
@@ -108,7 +108,12 @@ const ChannelModal: React.FC<Props> = ({ isOpen, onClose, users }) => {
                 {error}
               </Text>
             )}
-            <Button onClick={onCreateChannel}>Create</Button>
+            <Button
+              onClick={onCreateChannel}
+              disabled={!channelName || !selectedUsers.length}
+            >
+              Créer
+            </Button>
           </VStack>
         </ModalBody>
       </ModalContent>

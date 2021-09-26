@@ -3,6 +3,7 @@ import { IoMdAdd } from "react-icons/io";
 
 import {
   Avatar,
+  Box,
   Button,
   HStack,
   IconButton,
@@ -169,7 +170,7 @@ const ChannelsAndUsers: React.FC<ChannelsAndUsersProps> = ({
             mt={!!closeDrawer ? 0 : "40px"}
           >
             <Text color="gray.100" fontSize="l">
-              Channels
+              Chats
             </Text>
             {currentUser?.isAdmin && (
               <IconButton
@@ -199,19 +200,19 @@ const ChannelsAndUsers: React.FC<ChannelsAndUsersProps> = ({
         </VStack>
         <VStack spacing="0" w="100%">
           <Text color="gray.100" w="100%" fontSize="l">
-            Users
+            Utilisateurs
           </Text>
           {!!usersData?.users?.length &&
             usersData.users.map((u: User, i: number) => (
-              <Button
-                variant="unstyled"
+              <Box
                 key={i}
                 color="gray.100"
                 onClick={() => onUserClick(u.id)}
                 w="100%"
                 textAlign="left"
-                paddingLeft="10px"
-                _focus={{ border: "none" }}
+                pl="10px"
+                py="10px"
+                _hover={{ cursor: "pointer" }}
               >
                 <HStack justifyContent="space-between">
                   <HStack>
@@ -233,7 +234,7 @@ const ChannelsAndUsers: React.FC<ChannelsAndUsersProps> = ({
                     _focus={{ border: "none" }}
                   />
                 </HStack>
-              </Button>
+              </Box>
             ))}
         </VStack>
       </VStack>

@@ -28,17 +28,19 @@ export const BUBBLE_STYLE = {
     flex: 1,
   },
   left: {
-    bg: "brand.primary.300",
+    bg: "brand.primary.500",
     borderRadius: BORDER_RADIUS_BIG,
     borderBottomLeftRadius: BORDER_RADIUS_PETIT,
     maxW: "350px",
+    boxShadow: "md",
   },
   right: {
-    bg: "brand.primary.300",
+    bg: "brand.primary.500",
     borderRadius: BORDER_RADIUS_BIG,
     borderBottomRightRadius: BORDER_RADIUS_PETIT,
     ml: "29px",
     maxW: "350px",
+    boxShadow: "md",
   },
 };
 

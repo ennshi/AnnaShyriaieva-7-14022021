@@ -63,6 +63,7 @@ const ChkrInputBar: React.FC<ChkrInputBarProps> = ({
         <Box position="relative">
           <Image
             src={URL.createObjectURL(image)}
+            alt="Input image"
             {...INPUT_BAR_STYLE.image}
             {...inputImageStyle}
           />

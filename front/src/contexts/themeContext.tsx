@@ -11,7 +11,11 @@ export const theme = extendTheme({
         300: "#74C4E3",
         100: "#F3FBFE",
       },
-      secondary: "#f25f5c",
+      secondary: {
+        800: "#c33439",
+        600: "#f25f5c",
+        300: "#FFCDC1",
+      },
     },
   },
 });

@@ -54,7 +54,7 @@ const ChkrBubble: <TMessage extends IMessage = IMessage>(
           }
         >
           <HStack spacing="2px">
-            <Text>Show Thread</Text>
+            <Text>Afficher discussion</Text>
             <IoMdArrowDropright />
           </HStack>
         </Button>
@@ -66,7 +66,7 @@ const ChkrBubble: <TMessage extends IMessage = IMessage>(
             position="absolute"
             top="-5px"
             right="-5px"
-            aria-label="Answer in Thread"
+            aria-label="Réponse en discussion"
             icon={<RiMessage3Line />}
             size="sm"
             onClick={() =>
@@ -95,6 +95,7 @@ const ChkrBubble: <TMessage extends IMessage = IMessage>(
         {currentMessage?.image && (
           <Image
             src={currentMessage?.image}
+            alt={currentMessage._id + " image"}
             {...BUBBLE_STYLE.image}
             onClick={() => showImage && showImage(currentMessage?.image || "")}
           />
