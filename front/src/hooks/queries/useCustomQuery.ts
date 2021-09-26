@@ -1,8 +1,8 @@
 import { DocumentNode, QueryHookOptions, useQuery } from "@apollo/client";
 
-export const useCustomQuery = <T>(
+export const useCustomQuery = <TResponse, TInput>(
   query: DocumentNode,
-  options?: QueryHookOptions<any, T>
+  options?: QueryHookOptions<TResponse, TInput>
 ) => {
   return useQuery(query, options);
 };

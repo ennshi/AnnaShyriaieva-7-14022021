@@ -129,8 +129,8 @@ const ThreadView: React.FC<Props> = ({
       onSend={onSend}
       onLoadEarlier={onLoadMore}
       hasNextPage={
-        responsesData?.messages?.messages?.length <
-        responsesData?.messages?.count
+        (responsesData?.responses?.messages?.length || 0) <
+        (responsesData?.responses?.count || 0)
       }
       loading={loading}
       sendButton={

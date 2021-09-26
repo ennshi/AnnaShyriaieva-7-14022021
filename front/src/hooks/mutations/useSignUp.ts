@@ -1,6 +1,17 @@
 import { gql, MutationHookOptions } from "@apollo/client";
-import { SignUpInput } from "../../types";
 import { useCustomMutation } from "./useCustomMutation";
+
+export type SignUpInput = {
+  username: string;
+  password: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+};
+
+export type SignUpResponse = {
+  user: { id: string };
+};
 
 export const SIGN_UP = gql`
   mutation signUp(
@@ -24,5 +35,6 @@ export const SIGN_UP = gql`
   }
 `;
 
-export const useSignUp = (props?: MutationHookOptions<any, SignUpInput>) =>
-  useCustomMutation<SignUpInput>(SIGN_UP, props);
+export const useSignUp = (
+  props?: MutationHookOptions<SignUpResponse, SignUpInput>
+) => useCustomMutation<SignUpResponse, SignUpInput>(SIGN_UP, props);

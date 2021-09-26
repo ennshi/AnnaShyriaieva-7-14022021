@@ -1,6 +1,21 @@
 import { gql, QueryHookOptions } from "@apollo/client";
-import { GetUserInput } from "../../types";
 import { useCustomQuery } from "./useCustomQuery";
+
+type GetUserInput = {
+  id: string;
+};
+
+type GetUserResponse = {
+  user: {
+    id: string;
+    firstName: string;
+    lastName: string;
+    username: string;
+    password: string;
+    email: string;
+    isAdmin: boolean;
+  };
+};
 
 export const GET_USER = gql`
   query getUser($id: ID!) {
@@ -15,5 +30,6 @@ export const GET_USER = gql`
   }
 `;
 
-export const useGetUser = (props: QueryHookOptions<GetUserInput> = {}) =>
-  useCustomQuery(GET_USER, props);
+export const useGetUser = (
+  props: QueryHookOptions<GetUserResponse, GetUserInput> = {}
+) => useCustomQuery(GET_USER, props);

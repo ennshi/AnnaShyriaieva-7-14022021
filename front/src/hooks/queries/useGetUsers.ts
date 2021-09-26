@@ -1,5 +1,10 @@
 import { gql, QueryHookOptions } from "@apollo/client";
+import { User } from "../../types";
 import { useCustomQuery } from "./useCustomQuery";
+
+type GetUsersResponse = {
+  users: User[];
+};
 
 export const GET_USERS = gql`
   query getUsers {
@@ -12,5 +17,5 @@ export const GET_USERS = gql`
   }
 `;
 
-export const useGetUsers = (props: QueryHookOptions<any> = {}) =>
+export const useGetUsers = (props: QueryHookOptions<GetUsersResponse> = {}) =>
   useCustomQuery(GET_USERS, props);

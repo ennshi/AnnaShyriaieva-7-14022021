@@ -1,6 +1,16 @@
 import { gql, MutationHookOptions } from "@apollo/client";
-import { SendMessageInput } from "../../types";
 import { useCustomMutation } from "./useCustomMutation";
+
+type SendMessageResponse = {
+  message: { id: string };
+};
+
+type SendMessageInput = {
+  text: string;
+  image?: File;
+  toMessageId?: string;
+  channelId: string;
+};
 
 export const SEND_MESSAGE = gql`
   mutation createMessage(
@@ -23,5 +33,6 @@ export const SEND_MESSAGE = gql`
 `;
 
 export const useSendMessage = (
-  props?: MutationHookOptions<any, SendMessageInput>
-) => useCustomMutation<SendMessageInput>(SEND_MESSAGE, props);
+  props?: MutationHookOptions<SendMessageResponse, SendMessageInput>
+) =>
+  useCustomMutation<SendMessageResponse, SendMessageInput>(SEND_MESSAGE, props);

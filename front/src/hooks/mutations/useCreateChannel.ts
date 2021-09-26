@@ -1,6 +1,14 @@
 import { gql, MutationHookOptions } from "@apollo/client";
-import { CreateChannelInput } from "../../types";
 import { useCustomMutation } from "./useCustomMutation";
+
+type CreateChannelInput = {
+  name: string;
+  users: string[];
+};
+
+type CreateChannelResponse = {
+  channel: { id: string };
+};
 
 export const CREATE_CHANNEL = gql`
   mutation createChannel($name: String!, $users: [ID]!) {
@@ -11,5 +19,9 @@ export const CREATE_CHANNEL = gql`
 `;
 
 export const useCreateChannel = (
-  props?: MutationHookOptions<any, CreateChannelInput>
-) => useCustomMutation<CreateChannelInput>(CREATE_CHANNEL, props);
+  props?: MutationHookOptions<CreateChannelResponse, CreateChannelInput>
+) =>
+  useCustomMutation<CreateChannelResponse, CreateChannelInput>(
+    CREATE_CHANNEL,
+    props
+  );
