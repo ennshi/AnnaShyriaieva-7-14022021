@@ -16,7 +16,7 @@ const typeDefs = gql`
   }
   input CreateChannelInput {
     name: String!
-    users: [ID!]!
+    users: [ID]!
   }
 `;
 

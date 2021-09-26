@@ -5,6 +5,7 @@ const typeDefs = gql`
     login(input: UserLogin!): String
     users: [User]
     user(id: ID!): User
+    currentUser: User
   }
   type Mutation {
     createUser(input: CreateUserInput): User
@@ -16,6 +17,7 @@ const typeDefs = gql`
     lastName: String!
     username: String!
     password: String!
+    email: String!
     isAdmin: Boolean!
     channels: [Channel]
   }
@@ -26,9 +28,9 @@ const typeDefs = gql`
   input CreateUserInput {
     firstName: String!
     lastName: String!
+    email: String!
     username: String!
     password: String!
-    isAdmin: Boolean!
   }
 `;
 

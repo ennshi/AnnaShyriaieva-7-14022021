@@ -1,20 +1,40 @@
-import React, {useEffect, useRef, useState} from 'react'
-import ResizeTextarea, {TextareaAutosizeProps} from 'react-textarea-autosize'
+import React, {
+  ChangeEvent,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
+import ResizeTextarea, { TextareaAutosizeProps } from "react-textarea-autosize";
 
-import {Box, BoxProps, HStack, StackProps, Textarea, TextareaProps} from '@chakra-ui/react'
+import {
+  Box,
+  BoxProps,
+  HStack,
+  Input,
+  StackProps,
+  Textarea,
+  TextareaProps,
+  Image,
+  Flex,
+  ImageProps,
+  CloseButton,
+} from "@chakra-ui/react";
 
-import {CHAT_PLACEHOLDER} from '../constants'
-import {useScroll} from '../context/scrollContext'
-import {INPUT_BAR_STYLE, TEXTAREA_PROPS} from '../defaultStyles'
+import { CHAT_PLACEHOLDER } from "../constants";
+import { useScroll } from "../context/scrollContext";
+import { INPUT_BAR_STYLE, TEXTAREA_PROPS } from "../defaultStyles";
 
 export type ChkrInputBarProps = {
-  onSend: (text: string) => void
-  sendButton?: React.ReactElement<{onClick: () => void}>
-  placeholder?: string
-  textAreaProps?: TextareaProps & TextareaAutosizeProps
-  inputBarWrapperStyle?: BoxProps
-  inputBarStyle?: StackProps
-}
+  onSend: (text: string, image?: File | null) => void;
+  attachImageButton?: React.ReactElement<{ onClick: () => void }>;
+  sendButton?: React.ReactElement<{ onClick: () => void }>;
+  placeholder?: string;
+  textAreaProps?: TextareaProps & TextareaAutosizeProps;
+  inputBarWrapperStyle?: BoxProps;
+  inputBarStyle?: StackProps;
+  inputImageStyle?: Omit<ImageProps, "src">;
+};
 
 const ChkrInputBar: React.FC<ChkrInputBarProps> = ({
   onSend,
@@ -23,32 +43,71 @@ const ChkrInputBar: React.FC<ChkrInputBarProps> = ({
   textAreaProps,
   inputBarWrapperStyle,
   inputBarStyle,
+  attachImageButton,
+  inputImageStyle,
 }) => {
-  const [message, setMessage] = useState('')
-  const {onScrollToStart, onScrollForFewPixels} = useScroll()
-  const textAreaRef = useRef<HTMLTextAreaElement>(null)
-  const textAreaPrevHeight = useRef<number | undefined>()
+  const [message, setMessage] = useState("");
+  const [image, setImage] = useState<File | null>(null);
+  const { onScrollToStart, onScrollForFewPixels } = useScroll();
+  const textAreaRef = useRef<HTMLTextAreaElement>(null);
+  const imageInput = useRef<HTMLInputElement>(null);
+  const textAreaPrevHeight = useRef<number | undefined>();
 
   useEffect(() => {
-    textAreaPrevHeight.current = textAreaRef?.current?.offsetHeight
-  }, [])
+    textAreaPrevHeight.current = textAreaRef?.current?.offsetHeight;
+  }, []);
+
+  const imageElement = useMemo(() => {
+    if (image)
+      return (
+        <Box position="relative">
+          <Image
+            src={URL.createObjectURL(image)}
+            alt="Input image"
+            {...INPUT_BAR_STYLE.image}
+            {...inputImageStyle}
+          />
+          <CloseButton
+            position="absolute"
+            top="3px"
+            right="3px"
+            height="12px"
+            width="12px"
+            fontSize="0.4rem"
+            onClick={() => setImage(null)}
+          />
+        </Box>
+      );
+  }, [image, inputImageStyle]);
 
   const onTextAreaResize = (newHeight: number) => {
-    if (!textAreaPrevHeight?.current) return
-    onScrollForFewPixels(newHeight - textAreaPrevHeight.current)
-    textAreaPrevHeight.current = newHeight
-  }
+    if (!textAreaPrevHeight?.current) return;
+    onScrollForFewPixels(newHeight - textAreaPrevHeight.current);
+    textAreaPrevHeight.current = newHeight;
+  };
 
   const handleOnSend = () => {
-    onSend(message.trim())
-    setMessage('')
-    onScrollToStart()
-  }
+    onSend(message.trim(), image);
+    setMessage("");
+    if (image) setImage(null);
+    onScrollToStart();
+  };
 
   const renderSendButton = () => {
-    if (!sendButton) return
-    return React.cloneElement(sendButton, {onClick: handleOnSend})
-  }
+    if (!sendButton) return;
+    return React.cloneElement(sendButton, { onClick: handleOnSend });
+  };
+
+  const attachImage = (e: ChangeEvent<HTMLInputElement>) =>
+    setImage(e?.target?.files?.[0] || null);
+
+  const renderAttachImageButton = () => {
+    if (!attachImageButton) return;
+    const handleAttachImage = () => imageInput.current?.click();
+    return React.cloneElement(attachImageButton, {
+      onClick: handleAttachImage,
+    });
+  };
 
   return (
     <Box
@@ -64,28 +123,48 @@ const ChkrInputBar: React.FC<ChkrInputBarProps> = ({
         {...INPUT_BAR_STYLE.inputbar}
         {...inputBarStyle}
       >
-        <Textarea
-          minH="unset"
-          overflow="hidden"
-          flex={1}
-          resize="none"
-          as={ResizeTextarea}
-          onChange={e => setMessage(e.target.value)}
-          onHeightChange={onTextAreaResize}
-          placeholder={placeholder}
-          value={message}
-          border="none"
-          _focus={{
-            border: 'none',
-          }}
-          ref={textAreaRef}
-          {...TEXTAREA_PROPS}
-          {...textAreaProps}
-        />
+        <Flex
+          width="100%"
+          alignItems="flex-start"
+          justifyContent="center"
+          flexDir="column"
+        >
+          <Box width="100%">
+            <Textarea
+              minH="unset"
+              overflowY="auto"
+              flex={1}
+              resize="none"
+              as={ResizeTextarea}
+              onChange={(e) => setMessage(e.target.value)}
+              onHeightChange={onTextAreaResize}
+              placeholder={placeholder}
+              value={message}
+              border="none"
+              _focus={{
+                border: "none",
+              }}
+              ref={textAreaRef}
+              {...TEXTAREA_PROPS}
+              {...textAreaProps}
+            />
+          </Box>
+          {imageElement}
+        </Flex>
+        {renderAttachImageButton()}
+        {!!attachImageButton && (
+          <Input
+            type="file"
+            hidden
+            ref={imageInput}
+            onChange={attachImage}
+            value={""}
+          />
+        )}
         {renderSendButton()}
       </HStack>
     </Box>
-  )
-}
+  );
+};
 
-export default ChkrInputBar
+export default ChkrInputBar;

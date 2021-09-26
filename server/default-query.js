@@ -38,12 +38,12 @@ query getMessages {
   }
 }
 mutation createUser {
-  createUser(input: {firstName: "Anna", username: "anna1", lastName: "Shi", password: "qwerty1234", isAdmin: false}) {
+  createUser(input: {firstName: "Anna", username: "anna1", lastName: "Shi", password: "qwerty1234", isAdmin: false, email: "aaa@gmail.com"}) {
     ...UserData
   }
 }
 mutation createChannel {
-  createChannel(input: {name: "general", users: [1]}) {
+  createChannel(input: {name: "new channel", users: [1]}) {
     id
   }
 }

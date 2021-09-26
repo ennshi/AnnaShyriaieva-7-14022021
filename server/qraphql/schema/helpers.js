@@ -35,3 +35,27 @@ exports.clearImage = (filePath) => {
     },
   );
 };
+
+const isTooShort = (fieldName, text, minChars) =>
+  !text || text.trim().length < minChars ? `${fieldName} is too short` : '';
+
+const isTooLong = (fieldName, text, maxChars) =>
+  text && text.trim().length > maxChars ? `${fieldName} is too long` : '';
+
+const emailInvalid = (email) => {
+  const re =
+    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  return re.test(String(email).toLowerCase()) ? '' : 'Email is incorrect';
+};
+
+exports.validateUser = ({ username, firstName, lastName, email }) => {
+  return [
+    isTooShort('Username', username, 3),
+    isTooShort('First name', firstName, 2),
+    isTooShort('Last name', lastName, 2),
+    isTooLong('Username', username, 15),
+    isTooLong('First name', firstName, 30),
+    isTooLong('Last name', lastName, 30),
+    emailInvalid(email),
+  ].filter(Boolean);
+};

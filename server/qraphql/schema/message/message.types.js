@@ -19,6 +19,7 @@ const typeDefs = gql`
     toMessage: ID
     responses: [ID!]!
     channel: Channel
+    createdAt: String!
   }
   input CreateMessageInput {
     text: String!

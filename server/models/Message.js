@@ -15,16 +15,16 @@ const Message = sequelize.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    createdAt: {
-      type: DataTypes.DATE,
-      allowNull: false,
-    },
+    // createdAt: {
+    //   type: DataTypes.DATE,
+    //   allowNull: false,
+    // },
     responses: {
       type: DataTypes.ARRAY(DataTypes.INTEGER),
-      defaultValue: []
-    }
+      defaultValue: [],
+    },
   },
-  {},
+  { timestamps: true },
 );
 
 module.exports = Message;

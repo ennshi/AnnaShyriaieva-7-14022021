@@ -30,7 +30,10 @@ const resolvers = {
     },
     messages: async (_, { input }) => {
       const filter = {
-        where: input?.channelId ? { channel: input.channelId, toMessage: null} : {toMessage: null},
+        where: input?.channelId
+          ? { channel: input.channelId, toMessage: null }
+          : { toMessage: null },
+        order: [['createdAt']],
         limit: input?.limit || 20,
         offset: input?.offset || 0,
       };
@@ -40,20 +43,25 @@ const resolvers = {
         count: messages.count,
       };
     },
-    responses: async(_, { input }) => {
+    responses: async (_, { input }) => {
       const messageFound = await Message.findByPk(input.id);
-      if(!messageFound) throw new Error("Message doesn't exist");
+      if (!messageFound) throw new Error("Message doesn't exist");
       const filter = {
-        where: { id: messageFound.responses},
+        where: { id: messageFound.responses },
+        order: [['createdAt']],
         limit: input?.limit || 10,
         offset: input?.offset || 0,
       };
-      const messages = await Message.findAndCountAll(filter);
+      let messages = await Message.findAndCountAll(filter);
+      if (!messages.rows) {
+        messages = { ...messages, rows: [] };
+      }
+      messages.rows.unshift(messageFound);
       return {
         messages: messages.rows.map(async (m) => await extendMessage(m)),
         count: messages.count,
       };
-    }
+    },
   },
   Mutation: {
     createMessage: async (_, { input }, req) => {
@@ -66,9 +74,10 @@ const resolvers = {
         const { filename, createReadStream } = await image;
         const stream = createReadStream();
         const pathObj = await storeFS({ stream, filename });
-        fileLocation = `${req.protocol}://${req.get(
-          'host',
-        )}/${pathObj.path.replace(/\\/g, '/')}`;
+        fileLocation = `${req.protocol}://${req.get('host')}/${pathObj.path
+          .replace(/\\/g, '/')
+          .replace('img/', '')}`;
+        console.log(fileLocation);
       }
       const message = await Message.create({
         text,
@@ -79,7 +88,7 @@ const resolvers = {
       const channelFound = await Channel.findByPk(channelId);
       if (!channelFound) throw new Error("Channel doesn't exist");
       await message.setChannel(channelId);
-      
+
       let parentMessage;
       if (toMessageId) {
         parentMessage = await Message.findByPk(toMessageId);
@@ -87,8 +96,10 @@ const resolvers = {
         await message.setMessage(toMessageId);
       }
       const newMessage = await extendMessage(message);
-      if(parentMessage) {
-        parentMessage.responses = parentMessage.responses.length ? [...parentMessage.responses, newMessage.id] : [newMessage.id];
+      if (parentMessage) {
+        parentMessage.responses = parentMessage.responses.length
+          ? [...parentMessage.responses, newMessage.id]
+          : [newMessage.id];
         await parentMessage.save();
       }
       return newMessage;
@@ -103,17 +114,18 @@ const resolvers = {
       }
       if (!req.isAdmin || req.userId !== message.from)
         throw new Error('Forbidden');
-      if (message.image)
-        clearImage(message.image);
+      if (message.image) clearImage(message.image);
       if (message.toMessage) {
         const parentMessage = await Message.findByPk(message.toMessage);
-        if(parentMessage) {
-          parentMessage.responses = parentMessage.responses.filter(rId => +rId !== +id);
+        if (parentMessage) {
+          parentMessage.responses = parentMessage.responses.filter(
+            (rId) => +rId !== +id,
+          );
           await parentMessage.save();
         }
       }
       if (message.responses.length) {
-        await Message.destroy({where: {id: message.responses}});
+        await Message.destroy({ where: { id: message.responses } });
       }
       await message.destroy();
       return id;

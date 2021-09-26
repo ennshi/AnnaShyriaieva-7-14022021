@@ -1,7 +1,9 @@
 const express = require('express');
+const helmet = require('helmet');
 const sequelize = require('./utils/database');
 const { graphqlHTTP } = require('express-graphql');
 const { graphqlUploadExpress } = require('graphql-upload');
+const cors = require('cors');
 const schema = require('./qraphql/schema');
 const User = require('./models/User');
 const Message = require('./models/Message');
@@ -10,6 +12,19 @@ const isAuth = require('./middlewares/auth');
 
 const port = process.env.PORT;
 const app = express();
+
+app.use(helmet());
+
+app.use(
+  cors({
+    origin: 'http://localhost:3001',
+    preflightContinue: false,
+    optionsSuccessStatus: 204,
+    credentials: true,
+  }),
+);
+
+app.use(express.static('img'));
 
 app.use(express.json());
 

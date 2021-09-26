@@ -1,21 +1,19 @@
-import moment from 'moment'
+import moment from "moment";
 
-import { IMessage } from './types'
+import { IMessage } from "./types";
 
 export function isSameDay(
   currentMessage: IMessage,
   diffMessage: IMessage | null | undefined
 ) {
-  if (!diffMessage || !diffMessage.createdAt)
-    return false
+  if (!diffMessage || !diffMessage.createdAt) return false;
 
-  const currentCreatedAt = moment(currentMessage.createdAt)
-  const diffCreatedAt = moment(diffMessage.createdAt)
+  const currentCreatedAt = moment(currentMessage.createdAt);
+  const diffCreatedAt = moment(diffMessage.createdAt);
 
-  if (!currentCreatedAt.isValid() || !diffCreatedAt.isValid())
-    return false
+  if (!currentCreatedAt.isValid() || !diffCreatedAt.isValid()) return false;
 
-  return currentCreatedAt.isSame(diffCreatedAt, 'day')
+  return currentCreatedAt.isSame(diffCreatedAt, "day");
 }
 
 export function isSameUser(
@@ -23,9 +21,9 @@ export function isSameUser(
   diffMessage: IMessage | null | undefined
 ) {
   return !!(
-    diffMessage
-    && diffMessage.user
-    && currentMessage.user
-    && diffMessage.user._id === currentMessage.user._id
-  )
+    diffMessage &&
+    diffMessage.user &&
+    currentMessage.user &&
+    diffMessage.user._id === currentMessage.user._id
+  );
 }
