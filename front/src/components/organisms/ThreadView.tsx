@@ -67,6 +67,7 @@ const ThreadView: React.FC<Props> = ({
   );
 
   const onSend = async (message: string, image: File) => {
+    if (!message.trim().length) return;
     try {
       const sentMessage = await sendMessage({
         variables: {
